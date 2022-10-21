@@ -1,6 +1,8 @@
 package com.switchfully.duckbusters.digibooky.api;
 
 import com.switchfully.duckbusters.digibooky.service.PersonService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -19,14 +21,8 @@ public class PersonController {
     }
 
     @PostMapping(consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
     public void createPerson(@RequestBody CreatePersonDTO freshPerson){
         service.addPersonToRepo(freshPerson);
     }
-
-    @ExceptionHandler({IllegalArgumentException.class})
-    protected void courseID(IllegalArgumentException ex, HttpServletResponse response) throws IOException {
-        System.out.println(ex.getMessage());
-        response.sendError(BAD_REQUEST.value(), ex.getMessage());
-    }
-
 }
