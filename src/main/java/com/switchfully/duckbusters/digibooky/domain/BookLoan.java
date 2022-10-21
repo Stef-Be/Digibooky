@@ -24,4 +24,12 @@ public class BookLoan {
     public String getId() {
         return id;
     }
+
+    public LoanStatus getStatus() {
+        return status;
+    }
+
+    public String getBook() {
+        return book;
+    }
 }

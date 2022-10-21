@@ -49,4 +49,8 @@ public class BookRepository {
         }
         return foundBook;
     }
+
+    public boolean doesBookExist(String isbn){
+        return books.containsKey(isbn);
+    }
 }

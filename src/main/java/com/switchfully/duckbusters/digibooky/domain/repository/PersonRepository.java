@@ -20,4 +20,8 @@ public class PersonRepository {
     public Collection<Person> getAllPersons(){
         return personMap.values();
     }
+
+    public boolean doesPersonExist(String id){
+        return personMap.containsKey(id);
+    }
 }
