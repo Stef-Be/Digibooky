@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class UnknownPersonException extends RuntimeException {
     public UnknownPersonException() {
-        super("The Person is not found!");
+        super("Not found!");
     }
 }
