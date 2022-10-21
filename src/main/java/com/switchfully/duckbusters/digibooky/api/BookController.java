@@ -38,9 +38,5 @@ public class BookController {
         logger.info("Showing single book");
         return bookService.getByIsbn(isbn);
     }
-    @ExceptionHandler(IllegalArgumentException.class)
-    protected void illegalArgumentException(IllegalArgumentException ex, HttpServletResponse response) throws IOException {
-        logger.error("The book is not found");
-        response.sendError(BAD_REQUEST.value(), ex.getMessage());
-    }
+
 }
