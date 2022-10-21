@@ -1,5 +1,6 @@
 package com.switchfully.duckbusters.digibooky.api;
 
+import com.switchfully.duckbusters.digibooky.domain.Book;
 import com.switchfully.duckbusters.digibooky.domain.repository.BookRepository;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,7 +13,7 @@ import org.springframework.test.annotation.DirtiesContext;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class BookControllerTest {
@@ -29,7 +30,7 @@ class BookControllerTest {
 
     @Test
     void getAllBooks() {
-        BookDTO[] response = given()
+        AllBookDTO[] response = given()
                 .port(port)
                 .when()
                 .get("/books")
@@ -37,8 +38,35 @@ class BookControllerTest {
                 .assertThat()
                 .statusCode(HttpStatus.OK.value())
                 .extract()
-                .as(BookDTO[].class);
+                .as(AllBookDTO[].class);
         assertThat(response.length).isEqualTo(9);
     }
 
+    @Test
+    void getBookByIsbn() {
+        SingleBookDto response = given()
+                .port(port)
+                .when()
+                .get("/books/1234567890123")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .as(SingleBookDto.class);
+        assertThat(response).isNotNull();
+        assertThat(response.getTitle()).isEqualTo("Harry Potter");
+    }
+
+    @Test
+    void getBookByIsbn_whenWrongIsbnIsGiven_then() {
+       given()
+                .port(port)
+                .when()
+                .get("/books/1234567999999")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .extract();
+
+    }
 }

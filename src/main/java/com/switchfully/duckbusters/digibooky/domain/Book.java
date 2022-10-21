@@ -4,11 +4,17 @@ public class Book {
     private final String isbn;
     private final String title;
     private final Author author;
+    private final String summary;
 
-    public Book(String isbn, String title, Author author) {
+    public String getSummary() {
+        return summary;
+    }
+
+    public Book(String isbn, String title, Author author, String summary) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
+        this.summary = summary;
     }
 
     public String getIsbn() {
@@ -22,4 +28,5 @@ public class Book {
     public Author getAuthor() {
         return author;
     }
+
 }

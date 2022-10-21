@@ -1,7 +1,9 @@
 package com.switchfully.duckbusters.digibooky.service;
 
-import com.switchfully.duckbusters.digibooky.api.BookDTO;
+import com.switchfully.duckbusters.digibooky.api.AllBookDTO;
 import com.switchfully.duckbusters.digibooky.api.BookMapper;
+import com.switchfully.duckbusters.digibooky.api.SingleBookDto;
+import com.switchfully.duckbusters.digibooky.domain.Book;
 import com.switchfully.duckbusters.digibooky.domain.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +21,14 @@ public class BookService {
         this.bookMapper = bookMapper;
     }
 
-    public List<BookDTO> getAllBooks() {
+    public List<AllBookDTO> getAllBooks() {
         return bookRepository.getAllBooks().stream()
-                .map(bookMapper::mapToBookDto)
+                .map(bookMapper::mapToAllBookDto)
                 .collect(Collectors.toList());
+    }
+
+    public SingleBookDto getByIsbn(String isbn){
+        Book foundBook = bookRepository.getByIsbn(isbn);
+        return bookMapper.mapToSingleBookDto(foundBook);
     }
 }
