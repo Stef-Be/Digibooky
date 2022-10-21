@@ -27,7 +27,9 @@ public class PersonService {
 
     public void validateFreshPerson(CreatePersonDTO freshPerson){
         validateEmail(freshPerson.geteMail());
-
+        validateLastName(freshPerson.getLastName());
+        validateCity(freshPerson.getCity());
+        validateInss(freshPerson.getInss());
         personRepo.getAllPersons().forEach(person -> validateThatPerson(freshPerson,person));
 
     }
@@ -38,9 +40,25 @@ public class PersonService {
     }
 
     private void validateEmail(String eMail){
-        if(eMail.matches("^[A-z0-9]@[A-z0-9]\\.[A-z0-9]$")) return;
-        throw new IllegalArgumentException("E mail does not conform to format!");
+
+        if (eMail == null || !eMail.matches("^[A-z0-9]@[A-z0-9]\\.[A-z0-9]$"))
+            throw new IllegalArgumentException("E mail does not conform to format!");
+
     }
+
+    private void validateInss(String inss){
+        if(inss == null)throw new IllegalArgumentException("inss can not be empty!");
+    }
+
+    private void validateLastName(String lastName){
+        if(lastName == null)throw new IllegalArgumentException("last name can not be empty!");
+    }
+
+    private void validateCity(String city){
+        if(city == null)throw new IllegalArgumentException("city can not be empty!");
+    }
+
+
 
 
 }
