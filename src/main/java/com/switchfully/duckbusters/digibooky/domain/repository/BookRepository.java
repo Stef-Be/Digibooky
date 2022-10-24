@@ -94,8 +94,8 @@ public class BookRepository {
         return foundBooks;
     }
 
-    private static String getRegex(String firstName) {
-        String regexFirst = firstName.toLowerCase().replace("*", ".*");
+    private static String getRegex(String searchParameter) {
+        String regexFirst = searchParameter.toLowerCase().replace("*", ".*");
         if (regexFirst.isBlank()){
             regexFirst = ".*";
         }
