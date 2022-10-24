@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.annotation.DirtiesContext;
 
 import static io.restassured.RestAssured.given;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class PersonControllerTest {
 
     @Autowired
@@ -31,6 +33,8 @@ class PersonControllerTest {
 
     @Test
     void createPerson() {
+
+        System.out.println(requestBody);
 
         given()
                 .baseUri("http://localhost")
