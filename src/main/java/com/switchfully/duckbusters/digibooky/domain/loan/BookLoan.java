@@ -1,9 +1,9 @@
-package com.switchfully.duckbusters.digibooky.domain;
+package com.switchfully.duckbusters.digibooky.domain.loan;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-import static com.switchfully.duckbusters.digibooky.domain.LoanStatus.*;
+import static com.switchfully.duckbusters.digibooky.domain.loan.LoanStatus.*;
 
 public class BookLoan {
 

@@ -1,5 +1,7 @@
 package com.switchfully.duckbusters.digibooky.api;
 
+import com.switchfully.duckbusters.digibooky.api.dto.AddLoanDTO;
+import com.switchfully.duckbusters.digibooky.api.dto.returnBookDTO;
 import com.switchfully.duckbusters.digibooky.service.LoanService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

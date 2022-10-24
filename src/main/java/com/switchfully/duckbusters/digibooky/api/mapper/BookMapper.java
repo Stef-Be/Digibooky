@@ -1,7 +1,10 @@
-package com.switchfully.duckbusters.digibooky.api;
+package com.switchfully.duckbusters.digibooky.api.mapper;
 
-import com.switchfully.duckbusters.digibooky.domain.Author;
-import com.switchfully.duckbusters.digibooky.domain.Book;
+import com.switchfully.duckbusters.digibooky.api.dto.AllBookDTO;
+import com.switchfully.duckbusters.digibooky.api.dto.RegisterBookDTO;
+import com.switchfully.duckbusters.digibooky.api.dto.SingleBookDto;
+import com.switchfully.duckbusters.digibooky.domain.book.Author;
+import com.switchfully.duckbusters.digibooky.domain.book.Book;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,17 +1,10 @@
 package com.switchfully.duckbusters.digibooky.api;
 
-import com.switchfully.duckbusters.digibooky.domain.Person;
+import com.switchfully.duckbusters.digibooky.api.dto.CreatePersonDTO;
 import com.switchfully.duckbusters.digibooky.service.PersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @RestController
 @RequestMapping("person")

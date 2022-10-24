@@ -1,18 +1,17 @@
 package com.switchfully.duckbusters.digibooky.service;
 
-import com.switchfully.duckbusters.digibooky.api.AllBookDTO;
-import com.switchfully.duckbusters.digibooky.api.BookMapper;
-import com.switchfully.duckbusters.digibooky.api.RegisterBookDTO;
-import com.switchfully.duckbusters.digibooky.api.SingleBookDto;
-import com.switchfully.duckbusters.digibooky.domain.Book;
-import com.switchfully.duckbusters.digibooky.domain.Feature;
+import com.switchfully.duckbusters.digibooky.api.dto.AllBookDTO;
+import com.switchfully.duckbusters.digibooky.api.mapper.BookMapper;
+import com.switchfully.duckbusters.digibooky.api.dto.RegisterBookDTO;
+import com.switchfully.duckbusters.digibooky.api.dto.SingleBookDto;
+import com.switchfully.duckbusters.digibooky.domain.book.Book;
 import com.switchfully.duckbusters.digibooky.domain.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.switchfully.duckbusters.digibooky.domain.Feature.REGISTER_BOOK;
+import static com.switchfully.duckbusters.digibooky.domain.person.Feature.REGISTER_BOOK;
 
 @Service
 public class BookService {
@@ -64,4 +63,9 @@ public class BookService {
 
 
 
+
+    public List<SingleBookDto> getByTitle(String title) {
+        List<Book> foundBooks = bookRepository.getByTitle(title);
+        return foundBooks.stream().map(bookMapper::mapToSingleBookDto).collect(Collectors.toList());
+    }
 }

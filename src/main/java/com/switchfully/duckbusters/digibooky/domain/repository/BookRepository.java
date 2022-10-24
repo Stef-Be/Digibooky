@@ -1,7 +1,7 @@
 package com.switchfully.duckbusters.digibooky.domain.repository;
 
-import com.switchfully.duckbusters.digibooky.domain.Author;
-import com.switchfully.duckbusters.digibooky.domain.Book;
+import com.switchfully.duckbusters.digibooky.domain.book.Author;
+import com.switchfully.duckbusters.digibooky.domain.book.Book;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -65,5 +65,16 @@ public class BookRepository {
 
     public boolean doesBookExist(String isbn) {
         return books.containsKey(isbn);
+    }
+
+    public List<Book> getByTitle(String title) {
+        String regex = title.toLowerCase().replace("*", ".*");
+        List<Book> foundBooks = books.values().stream()
+                .filter(book -> book.getTitle().toLowerCase().matches(regex))
+                .collect(Collectors.toList());
+        if (foundBooks.size() == 0) {
+            throw new IllegalArgumentException("No book can be found with the title:" + title);
+        }
+        return foundBooks;
     }
 }

@@ -1,8 +1,8 @@
-package com.switchfully.duckbusters.digibooky.domain;
+package com.switchfully.duckbusters.digibooky.domain.person;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.switchfully.duckbusters.digibooky.domain.Feature.*;
+import static com.switchfully.duckbusters.digibooky.domain.person.Feature.*;
 
 public enum Role {
     ADMIN(newArrayList(ADD_LIBRARIAN)), MEMBER(newArrayList()), LIBRARIAN(newArrayList(REGISTER_BOOK));

@@ -1,7 +1,8 @@
-package com.switchfully.duckbusters.digibooky.api;
+package com.switchfully.duckbusters.digibooky.api.mapper;
 
-import com.switchfully.duckbusters.digibooky.domain.Address;
-import com.switchfully.duckbusters.digibooky.domain.Person;
+import com.switchfully.duckbusters.digibooky.api.dto.CreatePersonDTO;
+import com.switchfully.duckbusters.digibooky.domain.person.Address;
+import com.switchfully.duckbusters.digibooky.domain.person.Person;
 import org.springframework.stereotype.Component;
 
 @Component

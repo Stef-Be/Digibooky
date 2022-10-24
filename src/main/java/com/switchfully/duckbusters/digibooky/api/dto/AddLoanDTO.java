@@ -1,4 +1,4 @@
-package com.switchfully.duckbusters.digibooky.api;
+package com.switchfully.duckbusters.digibooky.api.dto;
 
 public class AddLoanDTO {
 

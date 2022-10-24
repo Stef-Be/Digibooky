@@ -1,16 +1,13 @@
 package com.switchfully.duckbusters.digibooky.service;
 
-import com.switchfully.duckbusters.digibooky.api.CreatePersonDTO;
-import com.switchfully.duckbusters.digibooky.api.PersonDTO;
-import com.switchfully.duckbusters.digibooky.api.PersonMapper;
-import com.switchfully.duckbusters.digibooky.domain.Feature;
-import com.switchfully.duckbusters.digibooky.domain.Person;
-import com.switchfully.duckbusters.digibooky.domain.Role;
+import com.switchfully.duckbusters.digibooky.api.dto.CreatePersonDTO;
+import com.switchfully.duckbusters.digibooky.api.mapper.PersonMapper;
+import com.switchfully.duckbusters.digibooky.domain.person.Feature;
+import com.switchfully.duckbusters.digibooky.domain.person.Person;
+import com.switchfully.duckbusters.digibooky.domain.person.Role;
 import com.switchfully.duckbusters.digibooky.domain.repository.PersonRepository;
 
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class PersonService {

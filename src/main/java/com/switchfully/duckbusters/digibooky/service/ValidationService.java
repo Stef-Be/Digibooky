@@ -1,7 +1,7 @@
 package com.switchfully.duckbusters.digibooky.service;
 
-import com.switchfully.duckbusters.digibooky.domain.Feature;
-import com.switchfully.duckbusters.digibooky.domain.Person;
+import com.switchfully.duckbusters.digibooky.domain.person.Feature;
+import com.switchfully.duckbusters.digibooky.domain.person.Person;
 import com.switchfully.duckbusters.digibooky.domain.repository.PersonRepository;
 import com.switchfully.duckbusters.digibooky.service.exceptions.UnauthorizatedException;
 import com.switchfully.duckbusters.digibooky.service.exceptions.UnknownPersonException;

@@ -1,7 +1,6 @@
 package com.switchfully.duckbusters.digibooky.domain.repository;
 
-import com.switchfully.duckbusters.digibooky.domain.BookLoan;
-import com.switchfully.duckbusters.digibooky.domain.Person;
+import com.switchfully.duckbusters.digibooky.domain.loan.BookLoan;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;

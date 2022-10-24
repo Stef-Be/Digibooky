@@ -1,6 +1,6 @@
-package com.switchfully.duckbusters.digibooky.api;
+package com.switchfully.duckbusters.digibooky.api.dto;
 
-import com.switchfully.duckbusters.digibooky.domain.Author;
+import com.switchfully.duckbusters.digibooky.domain.book.Author;
 
 public class SingleBookDto {
     private String isbn;

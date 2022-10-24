@@ -1,8 +1,8 @@
 package com.switchfully.duckbusters.digibooky.domain.repository;
 
-import com.switchfully.duckbusters.digibooky.domain.Address;
-import com.switchfully.duckbusters.digibooky.domain.Person;
-import com.switchfully.duckbusters.digibooky.domain.Role;
+import com.switchfully.duckbusters.digibooky.domain.person.Address;
+import com.switchfully.duckbusters.digibooky.domain.person.Person;
+import com.switchfully.duckbusters.digibooky.domain.person.Role;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;

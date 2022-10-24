@@ -1,21 +1,19 @@
 package com.switchfully.duckbusters.digibooky.service;
 
 
-import com.switchfully.duckbusters.digibooky.api.AddLoanDTO;
-import com.switchfully.duckbusters.digibooky.api.LoanMapper;
-import com.switchfully.duckbusters.digibooky.api.returnBookDTO;
-import com.switchfully.duckbusters.digibooky.domain.BookLoan;
-import com.switchfully.duckbusters.digibooky.domain.LoanStatus;
+import com.switchfully.duckbusters.digibooky.api.dto.AddLoanDTO;
+import com.switchfully.duckbusters.digibooky.api.mapper.LoanMapper;
+import com.switchfully.duckbusters.digibooky.api.dto.returnBookDTO;
+import com.switchfully.duckbusters.digibooky.domain.loan.BookLoan;
 import com.switchfully.duckbusters.digibooky.domain.repository.BookRepository;
 import com.switchfully.duckbusters.digibooky.domain.repository.LoanRepository;
 import com.switchfully.duckbusters.digibooky.domain.repository.PersonRepository;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.LocalDate;
 
-import static com.switchfully.duckbusters.digibooky.domain.LoanStatus.*;
+import static com.switchfully.duckbusters.digibooky.domain.loan.LoanStatus.*;
 
 @Component
 public class LoanService {

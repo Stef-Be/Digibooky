@@ -1,4 +1,4 @@
-package com.switchfully.duckbusters.digibooky.domain;
+package com.switchfully.duckbusters.digibooky.domain.person;
 
 import java.util.UUID;
 
