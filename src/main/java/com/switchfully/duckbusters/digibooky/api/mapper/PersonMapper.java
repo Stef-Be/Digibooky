@@ -11,7 +11,7 @@ public class PersonMapper {
 
 
     public PersonDTO mapToPersonDto(Person person) {
-        return new PersonDTO(person.getId(), person.getFirstName(), person.getLastName());
+        return new PersonDTO(person.getId(), person.getFirstName(), person.getLastName(), person.geteMail(), person.getAddress(),person.getRole());
     }
 
     public Person createNewPerson(CreatePersonDTO freshPerson) {

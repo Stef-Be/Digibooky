@@ -43,6 +43,10 @@ public class Person {
         return lastName;
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
     public String getFullName(){
         return firstName + " " + lastName;
     }
