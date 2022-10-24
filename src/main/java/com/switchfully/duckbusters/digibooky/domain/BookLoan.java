@@ -32,4 +32,12 @@ public class BookLoan {
     public String getBook() {
         return book;
     }
+
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public void setStatus(LoanStatus status) {
+        this.status = status;
+    }
 }

@@ -19,4 +19,11 @@ public class LoanController {
     public void newLoan(@RequestBody AddLoanDTO loanInfo){
         loanService.LoanBook(loanInfo);
     }
+
+    @PutMapping(path = "/return/{id}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public returnBookDTO returnLoan(@PathVariable String id){
+        return loanService.returnBook(id);
+    }
+
 }
