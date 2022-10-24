@@ -44,15 +44,15 @@ public class BookRepository {
         return books.values();
     }
 
-    public Book getByIsbn(String isbn){
-        var foundBook = books.get(isbn);
-        if (foundBook == null) {
-            throw new IllegalArgumentException("No book can be found with the isbn:" + isbn);
-        }
-        return foundBook;
-    }
+//    public Book getByIsbn(String isbn){
+//        var foundBook = books.get(isbn);
+//        if (foundBook == null) {
+//            throw new IllegalArgumentException("No book can be found with the isbn:" + isbn);
+//        }
+//        return foundBook;
+//    }
 
-    public List<Book> getByIsbnWithWildcard(String isbn){
+    public List<Book> getByIsbn(String isbn){
         String regex =isbn.replace("?",".").replace("*",".*");
         var foundBooks = books.values().stream()
                 .filter(book -> book.getIsbn().matches(regex))

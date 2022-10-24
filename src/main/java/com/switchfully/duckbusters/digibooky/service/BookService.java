@@ -27,8 +27,8 @@ public class BookService {
                 .collect(Collectors.toList());
     }
 
-    public SingleBookDto getByIsbn(String isbn){
-        Book foundBook = bookRepository.getByIsbn(isbn);
-        return bookMapper.mapToSingleBookDto(foundBook);
+    public List<SingleBookDto> getByIsbn(String isbn) {
+        List<Book> foundBooks = bookRepository.getByIsbn(isbn);
+        return foundBooks.stream().map(bookMapper::mapToSingleBookDto).collect(Collectors.toList());
     }
 }

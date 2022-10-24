@@ -32,11 +32,11 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
-    @GetMapping(path = "{isbn}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(params = "isbn", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public SingleBookDto getProfessor(@PathVariable String isbn) {
-        logger.info("Showing single book");
+    public List<SingleBookDto> getBookByIsbn(@RequestParam String isbn) {
         return bookService.getByIsbn(isbn);
     }
+
 
 }
