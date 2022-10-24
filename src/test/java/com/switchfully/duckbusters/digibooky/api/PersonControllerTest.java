@@ -99,4 +99,47 @@ class PersonControllerTest {
                 .statusCode(HttpStatus.FORBIDDEN.value())
                 .extract();
     }
+
+    @Test
+    void viewAllMember_WhenIsAdmin() {
+        String adminId = personRepository.getAllPersons().stream()
+                .filter(person -> person.getRole() == Role.ADMIN)
+                .toList()
+                .get(0)
+                .getId();
+
+        given()
+                .baseUri("http://localhost")
+                .port(port)
+                .header("Content-type", "application/json")
+                .and()
+                .when()
+                .get("/person/" + adminId + "/listofpersons")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract();
+
+    }
+    @Test
+    void viewAllMember_WhenIsNotAdmin() {
+        String adminId = personRepository.getAllPersons().stream()
+                .filter(person -> person.getRole() == Role.LIBRARIAN)
+                .toList()
+                .get(0)
+                .getId();
+
+        given()
+                .baseUri("http://localhost")
+                .port(port)
+                .header("Content-type", "application/json")
+                .and()
+                .when()
+                .get("/person/" + adminId + "/listofpersons")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.FORBIDDEN.value())
+                .extract();
+
+    }
 }
