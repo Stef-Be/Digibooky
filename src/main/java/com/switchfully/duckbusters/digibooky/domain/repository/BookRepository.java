@@ -57,16 +57,7 @@ public class BookRepository {
         return foundBook;
     }
 
-    public List<Book> getByIsbnWithWildcard(String isbn){
-        String regex =isbn.replace("?",".").replace("*",".*");
-        var foundBooks = books.values().stream()
-                .filter(book -> book.getIsbn().matches(regex))
-                .collect(Collectors.toList());
-        if (foundBooks.size()==0) {
-            throw new IllegalArgumentException("No book can be found with the isbn:" + isbn);
-        }
-        return foundBooks;
-    }
+
 
     public boolean doesBookExist(String isbn){
         return books.containsKey(isbn);
