@@ -105,6 +105,21 @@ class BookControllerTest {
     }
 
     @Test
+    void getAllBooksWhenNoIsbnProvided() {
+        SingleBookDto[] response = given()
+                .port(port)
+                .when()
+                .get("/books?isbn=")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .as(SingleBookDto[].class);
+
+        assertThat(response.length).isEqualTo(bookRepository.getAllBooks().size());
+    }
+
+    @Test
     void addBookHappyPath(){
 
         Person person = new Person("1",
@@ -208,5 +223,76 @@ class BookControllerTest {
                 .assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .extract();
+    }
+
+    @Test
+    void getAllBooksWhenNoTitleProvided() {
+        SingleBookDto[] response = given()
+                .port(port)
+                .when()
+                .get("/books?title=")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .as(SingleBookDto[].class);
+
+        assertThat(response.length).isEqualTo(bookRepository.getAllBooks().size());
+    }
+
+    @Test
+    void getBookByAuthor() {
+        SingleBookDto[] response = given()
+                .port(port)
+                .when()
+                .get("/books/author?firstName=*t*&lastName=*v*")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .as(SingleBookDto[].class);
+        assertThat(response.length).isEqualTo(bookRepository.getAllBooks().stream().filter(book -> book.getAuthor().getFirstName().equals("Tim")).toList().size());
+    }
+
+    @Test
+    void getBookByAuthorWhenNoFirstNameProvided() {
+        SingleBookDto[] response = given()
+                .port(port)
+                .when()
+                .get("/books/author?firstName=&lastName=*v*")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .as(SingleBookDto[].class);
+        assertThat(response.length).isEqualTo(bookRepository.getAllBooks().stream().filter(book -> book.getAuthor().getLastName().contains("V")).toList().size());
+    }
+
+    @Test
+    void getBookByAuthorWhenNoLastNameProvided() {
+        SingleBookDto[] response = given()
+                .port(port)
+                .when()
+                .get("/books/author?firstName=Tim&lastName=")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .as(SingleBookDto[].class);
+        assertThat(response.length).isEqualTo(bookRepository.getAllBooks().stream().filter(book -> book.getAuthor().getFirstName().equals("Tim")).toList().size());
+    }
+
+    @Test
+    void getBookByAuthorWhenNoNamesProvided() {
+        SingleBookDto[] response = given()
+                .port(port)
+                .when()
+                .get("/books/author?firstName=&lastName=")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .as(SingleBookDto[].class);
+        assertThat(response.length).isEqualTo(bookRepository.getAllBooks().size());
     }
 }

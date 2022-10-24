@@ -52,7 +52,7 @@ public class BookRepository {
 
 
     public List<Book> getByIsbn(String isbn) {
-        String regex = isbn.replace("*", ".*");
+        String regex = getRegex(isbn);
         List<Book> foundBooks = books.values().stream()
                 .filter(book -> book.getIsbn().matches(regex))
                 .collect(Collectors.toList());
@@ -68,7 +68,7 @@ public class BookRepository {
     }
 
     public List<Book> getByTitle(String title) {
-        String regex = title.toLowerCase().replace("*", ".*");
+        String regex = getRegex(title);
         List<Book> foundBooks = books.values().stream()
                 .filter(book -> book.getTitle().toLowerCase().matches(regex))
                 .collect(Collectors.toList());
@@ -76,5 +76,29 @@ public class BookRepository {
             throw new IllegalArgumentException("No book can be found with the title:" + title);
         }
         return foundBooks;
+    }
+
+    public List<Book> getByAuthor(String firstName, String lastName) {
+
+        String regexFirstName = getRegex(firstName);
+        String regexLastName = getRegex(lastName);
+
+        List<Book> foundBooks = books.values().stream()
+                .filter(book -> book.getAuthor().getFirstName().toLowerCase().matches(regexFirstName))
+                .filter(book -> book.getAuthor().getLastName().toLowerCase().matches(regexLastName)).toList();
+
+        if (foundBooks.size() == 0) {
+            throw new IllegalArgumentException("No book can be found from author " + firstName + " " + lastName);
+        }
+
+        return foundBooks;
+    }
+
+    private static String getRegex(String searchParameter) {
+        String regexFirst = searchParameter.toLowerCase().replace("*", ".*");
+        if (regexFirst.isBlank()){
+            regexFirst = ".*";
+        }
+        return regexFirst;
     }
 }
