@@ -1,6 +1,8 @@
 package com.switchfully.duckbusters.digibooky.service;
 
 import com.switchfully.duckbusters.digibooky.api.dto.AllBookDTO;
+import com.switchfully.duckbusters.digibooky.api.dto.AuthorDTO;
+import com.switchfully.duckbusters.digibooky.api.mapper.AuthorMapper;
 import com.switchfully.duckbusters.digibooky.api.mapper.BookMapper;
 import com.switchfully.duckbusters.digibooky.api.dto.RegisterBookDTO;
 import com.switchfully.duckbusters.digibooky.api.dto.SingleBookDto;
@@ -8,6 +10,7 @@ import com.switchfully.duckbusters.digibooky.domain.book.Book;
 import com.switchfully.duckbusters.digibooky.domain.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,12 +22,15 @@ public class BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
+    private final AuthorMapper authorMapper;
+
     private final ValidationService validation;
 
-    public BookService(BookRepository bookRepository, BookMapper bookMapper, ValidationService validation) {
+    public BookService(BookRepository bookRepository, BookMapper bookMapper, ValidationService validation, AuthorMapper authorMapper) {
         this.bookRepository = bookRepository;
         this.bookMapper = bookMapper;
         this.validation = validation;
+        this.authorMapper = authorMapper;
     }
 
     public List<AllBookDTO> getAllBooks() {
@@ -66,6 +72,11 @@ public class BookService {
 
     public List<SingleBookDto> getByTitle(String title) {
         List<Book> foundBooks = bookRepository.getByTitle(title);
+        return foundBooks.stream().map(bookMapper::mapToSingleBookDto).collect(Collectors.toList());
+    }
+
+    public List<SingleBookDto> getByAuthor(String firstName, String lastName) {
+        List<Book> foundBooks = bookRepository.getByAuthor(firstName, lastName);
         return foundBooks.stream().map(bookMapper::mapToSingleBookDto).collect(Collectors.toList());
     }
 }

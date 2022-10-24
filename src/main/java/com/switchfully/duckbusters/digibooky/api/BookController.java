@@ -1,6 +1,7 @@
 package com.switchfully.duckbusters.digibooky.api;
 
 import com.switchfully.duckbusters.digibooky.api.dto.AllBookDTO;
+import com.switchfully.duckbusters.digibooky.api.dto.AuthorDTO;
 import com.switchfully.duckbusters.digibooky.api.dto.RegisterBookDTO;
 import com.switchfully.duckbusters.digibooky.api.dto.SingleBookDto;
 import com.switchfully.duckbusters.digibooky.service.BookService;
@@ -40,6 +41,12 @@ public class BookController {
     @ResponseStatus(HttpStatus.OK)
     public List<SingleBookDto> getBookByTitle(@RequestParam String title) {
         return bookService.getByTitle(title);
+    }
+
+    @GetMapping(path="author", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<SingleBookDto> getBookByAuthor(@RequestParam String firstName, @RequestParam String lastName) {
+        return bookService.getByAuthor(firstName, lastName);
     }
 
     @PostMapping(path = "{librarianId}/register", consumes = MediaType.APPLICATION_JSON_VALUE)
