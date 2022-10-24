@@ -21,4 +21,12 @@ public class LoanRepository {
     public Collection<BookLoan> getAllLoans(){
         return loanMap.values();
     }
+
+    public BookLoan getLoan(String id){
+        return loanMap.get(id);
+    }
+
+    public boolean doesLoanExist(String id) {
+        return loanMap.containsKey(id);
+    }
 }
