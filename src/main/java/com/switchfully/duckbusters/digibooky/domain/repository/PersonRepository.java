@@ -37,6 +37,10 @@ public class PersonRepository {
         return personMap.values();
     }
 
+    public boolean doesPersonExist(String id){
+        return personMap.containsKey(id);
+    }
+
    public Person getPersonById(String id){
         return personMap.get(id);
    }
