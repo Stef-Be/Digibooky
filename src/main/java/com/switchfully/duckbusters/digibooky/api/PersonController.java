@@ -1,5 +1,6 @@
 package com.switchfully.duckbusters.digibooky.api;
 
+import com.switchfully.duckbusters.digibooky.domain.Person;
 import com.switchfully.duckbusters.digibooky.service.PersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -7,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
@@ -22,7 +25,14 @@ public class PersonController {
 
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createPerson(@RequestBody CreatePersonDTO freshPerson){
+    public void createPerson(@RequestBody CreatePersonDTO freshPerson) {
         service.addPersonToRepo(freshPerson);
     }
+
+    @PostMapping(path = "{adminId}/registerLibrarian", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void registerLibrarian(@PathVariable String adminId, @RequestBody CreatePersonDTO newPerson) {
+        service.registerLibrarian(adminId, newPerson);
+    }
+
 }
