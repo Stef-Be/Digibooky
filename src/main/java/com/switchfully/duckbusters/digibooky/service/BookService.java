@@ -2,6 +2,7 @@ package com.switchfully.duckbusters.digibooky.service;
 
 import com.switchfully.duckbusters.digibooky.api.AllBookDTO;
 import com.switchfully.duckbusters.digibooky.api.BookMapper;
+import com.switchfully.duckbusters.digibooky.api.RegisterBookDTO;
 import com.switchfully.duckbusters.digibooky.api.SingleBookDto;
 import com.switchfully.duckbusters.digibooky.domain.Book;
 import com.switchfully.duckbusters.digibooky.domain.repository.BookRepository;
@@ -30,5 +31,9 @@ public class BookService {
     public SingleBookDto getByIsbn(String isbn){
         Book foundBook = bookRepository.getByIsbn(isbn);
         return bookMapper.mapToSingleBookDto(foundBook);
+    }
+
+    public void registerNewBook(String librarianId,RegisterBookDTO freshBook){
+        bookRepository.addNewBook(bookMapper.createBookFromDto(freshBook));
     }
 }

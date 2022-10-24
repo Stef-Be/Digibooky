@@ -40,6 +40,11 @@ public class BookRepository {
         books.put(book9.getIsbn(), book9);
     }
 
+    public void addNewBook(Book book){
+        books.put(book.getIsbn(), book);
+
+    }
+
     public Collection<Book> getAllBooks() {
         return books.values();
     }

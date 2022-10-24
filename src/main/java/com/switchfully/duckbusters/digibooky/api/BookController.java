@@ -39,4 +39,10 @@ public class BookController {
         return bookService.getByIsbn(isbn);
     }
 
+    @PostMapping(path = "{librarianId}/register", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void registerNewBook(@PathVariable String librarianId, @RequestBody RegisterBookDTO freshBook){
+        bookService.registerNewBook(librarianId,freshBook);
+    }
+
 }
