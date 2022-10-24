@@ -35,6 +35,18 @@ public class Person {
         return eMail;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
     public String getFullName(){
         return firstName + " " + lastName;
     }
