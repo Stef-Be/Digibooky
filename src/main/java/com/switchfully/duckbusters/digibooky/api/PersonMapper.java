@@ -17,10 +17,13 @@ public class PersonMapper {
                 createAddress(freshPerson));
     }
 
+
     private Address createAddress(CreatePersonDTO freshPerson){
         return new Address(freshPerson.getStreet(),
                 freshPerson.getHouseNumber(),
                 freshPerson.getPostalCode(),
                 freshPerson.getCity());
     }
+
+
 }

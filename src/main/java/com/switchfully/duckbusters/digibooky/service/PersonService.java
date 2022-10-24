@@ -1,11 +1,16 @@
 package com.switchfully.duckbusters.digibooky.service;
 
 import com.switchfully.duckbusters.digibooky.api.CreatePersonDTO;
+import com.switchfully.duckbusters.digibooky.api.PersonDTO;
 import com.switchfully.duckbusters.digibooky.api.PersonMapper;
+import com.switchfully.duckbusters.digibooky.domain.Feature;
 import com.switchfully.duckbusters.digibooky.domain.Person;
+import com.switchfully.duckbusters.digibooky.domain.Role;
 import com.switchfully.duckbusters.digibooky.domain.repository.PersonRepository;
 
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class PersonService {
@@ -13,11 +18,11 @@ public class PersonService {
     private final PersonRepository personRepo;
     private final PersonMapper personMapper;
 
-
-    public PersonService(PersonRepository personRepo, PersonMapper personMapper) {
+    private final ValidationService validationService;
+    public PersonService(PersonRepository personRepo, PersonMapper personMapper, ValidationService validationService) {
         this.personRepo = personRepo;
         this.personMapper = personMapper;
-
+        this.validationService = validationService;
     }
 
 
@@ -60,5 +65,13 @@ public class PersonService {
         if (city == null) throw new IllegalArgumentException("city can not be empty!");
     }
 
+
+    public void registerLibrarian(String adminId, CreatePersonDTO newPerson) {
+        validationService.validateAuthorization(adminId, Feature.ADD_LIBRARIAN);
+        validateFreshPerson(newPerson);
+        Person librarian = personMapper.createNewPerson(newPerson);
+        librarian.setRole(Role.LIBRARIAN);
+        personRepo.addPerson(librarian);
+    }
 
 }

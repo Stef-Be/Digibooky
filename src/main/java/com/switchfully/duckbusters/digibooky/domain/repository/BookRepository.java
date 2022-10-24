@@ -6,7 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class BookRepository {
@@ -19,7 +21,7 @@ public class BookRepository {
 
     private void getBooksFromDatabase() {
         Book book1 = new Book("1234567890123", "Harry Potter", new Author("J.K.", "Rowling"), "Kid becomes magician");
-        Book book2 = new Book("6575678901283", "Harry Potter 2", new Author("J.K.", "Rowling"), "Kid goes to school do magic");
+        Book book2 = new Book("6123456701283", "Harry Potter 2", new Author("J.K.", "Rowling"), "Kid goes to school do magic");
         Book book3 = new Book("1234785490123", "Harry Potter 3", new Author("J.K.", "Rowling"), "more magic stuff");
         Book book4 = new Book("9834567890123", "Harry Potter 4", new Author("J.K.", "Rowling"), "end of the magic stuff");
         Book book5 = new Book("1234444590123", "Java Advanced", new Author("Tim", "Vercruysse"), "it is about java advance");
@@ -48,5 +50,16 @@ public class BookRepository {
             throw new IllegalArgumentException("No book can be found with the isbn:" + isbn);
         }
         return foundBook;
+    }
+
+    public List<Book> getByIsbnWithWildcard(String isbn){
+        String regex =isbn.replace("?",".").replace("*",".*");
+        var foundBooks = books.values().stream()
+                .filter(book -> book.getIsbn().matches(regex))
+                .collect(Collectors.toList());
+        if (foundBooks.size()==0) {
+            throw new IllegalArgumentException("No book can be found with the isbn:" + isbn);
+        }
+        return foundBooks;
     }
 }
