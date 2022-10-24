@@ -1,7 +1,11 @@
 package com.switchfully.duckbusters.digibooky.api;
 
+import com.switchfully.duckbusters.digibooky.domain.Address;
 import com.switchfully.duckbusters.digibooky.domain.Book;
+import com.switchfully.duckbusters.digibooky.domain.Person;
+import com.switchfully.duckbusters.digibooky.domain.Role;
 import com.switchfully.duckbusters.digibooky.domain.repository.BookRepository;
+import com.switchfully.duckbusters.digibooky.domain.repository.PersonRepository;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -11,6 +15,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 
+import static com.switchfully.duckbusters.digibooky.domain.Role.*;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,6 +27,9 @@ class BookControllerTest {
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private PersonRepository personRepository;
 
     @BeforeAll
     public static void setup() {
@@ -68,5 +76,71 @@ class BookControllerTest {
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .extract();
 
+    }
+
+    @Test
+    void addBookHappyPath(){
+
+        Person person = new Person("1",
+                "Chad",
+                "Giga",
+                "gigachad@based.com",
+                new Address("street","1","420","city"));
+        person.setRole(LIBRARIAN);
+        personRepository.addPerson(person);
+
+        String requestBody = "{\n" +
+                "  \"isbn\": \"1111111111111\",\n" +
+                "  \"title\": \"a book\",\n" +
+                "  \"authorFirstName\": \"a\",\n" +
+                "  \"authorLastName\": \"e\",\n" +
+                "  \"summary\": \"this is a summary\"}"
+                ;
+
+        given()
+                .baseUri("http://localhost")
+                .port(port)
+                .header("Content-type", "application/json")
+                .and()
+                .body(requestBody)
+                .when()
+                .post("/books/" +person.getId()+"/register")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract();
+    }
+
+    @Test
+    void addBookNotLibrarian(){
+
+        Person person = new Person("1",
+                "Chad",
+                "Giga",
+                "gigachad@based.com",
+                new Address("street","1","420","city"));
+
+        personRepository.addPerson(person);
+
+        String requestBody = "{\n" +
+                "  \"isbn\": \"1111111111111\",\n" +
+                "  \"title\": \"a book\",\n" +
+                "  \"authorFirstName\": \"a\",\n" +
+                "  \"authorLastName\": \"e\",\n" +
+                "  \"summary\": \"this is a summary\"}"
+                ;
+
+        given()
+                .baseUri("http://localhost")
+                .port(port)
+                .header("Content-type", "application/json")
+                .and()
+                .body(requestBody)
+                .when()
+                .post("/books/" +person.getId()+"/register")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.FORBIDDEN.value())
+                .extract();
     }
 }
