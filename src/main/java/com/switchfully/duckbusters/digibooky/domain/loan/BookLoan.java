@@ -25,6 +25,10 @@ public class BookLoan {
         return id;
     }
 
+    public String getMember() {
+        return member;
+    }
+
     public LoanStatus getStatus() {
         return status;
     }

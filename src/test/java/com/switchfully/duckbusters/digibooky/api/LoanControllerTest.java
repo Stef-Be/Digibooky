@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 
+import static com.switchfully.duckbusters.digibooky.domain.person.Role.LIBRARIAN;
 import static io.restassured.RestAssured.given;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -89,5 +90,33 @@ class LoanControllerTest {
                 .assertThat()
                 .statusCode(HttpStatus.OK.value())
                 .extract();
+    }
+
+    @Test
+    void viewLoansOfMemberAsLibrarian(){
+        Address address = new Address("funstreet", "11", "1111", "funcity");
+
+        Person person1 = new Person("69", "x@x.x", "a", "b", address);
+
+        personRepository.addPerson(person1);
+
+        Person person = new Person("420",
+                "Chad",
+                "Giga",
+                "gigachad@based.com",
+                new Address("street","1","420","city"));
+        person.setRole(LIBRARIAN);
+        personRepository.addPerson(person);
+
+        given()
+                .baseUri("http://localhost")
+                .port(port)
+                .when()
+                .get("/loans/" + person.getId() + "/view?memberId=" + person1.getId())
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract();
+
     }
 }
