@@ -40,9 +40,15 @@ public class BookRepository {
         books.put(book9.getIsbn(), book9);
     }
 
+    public void addNewBook(Book book){
+        books.put(book.getIsbn(), book);
+
+    }
+
     public Collection<Book> getAllBooks() {
         return books.values();
     }
+
 
 
     public List<Book> getByIsbn(String isbn) {
@@ -55,6 +61,7 @@ public class BookRepository {
         }
         return foundBooks;
     }
+
 
     public boolean doesBookExist(String isbn) {
         return books.containsKey(isbn);

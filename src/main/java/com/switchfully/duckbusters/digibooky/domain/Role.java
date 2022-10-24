@@ -5,7 +5,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import static com.switchfully.duckbusters.digibooky.domain.Feature.*;
 
 public enum Role {
-    ADMIN(newArrayList(ADD_LIBRARIAN)), MEMBER(newArrayList()), LIBRARIAN(newArrayList());
+    ADMIN(newArrayList(ADD_LIBRARIAN)), MEMBER(newArrayList()), LIBRARIAN(newArrayList(REGISTER_BOOK));
 
     private List<Feature> featureList;
 
