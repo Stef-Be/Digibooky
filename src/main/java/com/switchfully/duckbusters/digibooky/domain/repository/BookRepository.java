@@ -49,17 +49,21 @@ public class BookRepository {
         return books.values();
     }
 
-    public Book getByIsbn(String isbn){
-        var foundBook = books.get(isbn);
-        if (foundBook == null) {
+
+
+    public List<Book> getByIsbn(String isbn) {
+        String regex = isbn.replace("*", ".*");
+        List<Book> foundBooks = books.values().stream()
+                .filter(book -> book.getIsbn().matches(regex))
+                .collect(Collectors.toList());
+        if (foundBooks.size() == 0) {
             throw new IllegalArgumentException("No book can be found with the isbn:" + isbn);
         }
-        return foundBook;
+        return foundBooks;
     }
 
 
-
-    public boolean doesBookExist(String isbn){
+    public boolean doesBookExist(String isbn) {
         return books.containsKey(isbn);
     }
 }
