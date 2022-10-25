@@ -58,17 +58,17 @@ class BookControllerTest {
 
     @Test
     void getBookByIsbn() {
-        SingleBookDto[] response = given()
+        SingleBookDto response = given()
                 .port(port)
                 .when()
-                .get("/books?isbn=1234567890123")
+                .get("/books/1234567890123")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.OK.value())
                 .extract()
-                .as(SingleBookDto[].class);
+                .as(SingleBookDto.class);
         assertThat(response).isNotNull();
-        assertThat(response[0].getTitle()).isEqualTo("Harry Potter");
+        assertThat(response.getTitle()).isEqualTo("Harry Potter");
     }
 
     @Test
