@@ -94,4 +94,8 @@ public class BookService {
         List<Book> foundBooks = bookRepository.getByAuthor(firstName, lastName);
         return foundBooks.stream().filter(Book::isInCatalogue).map(bookMapper::mapToSingleBookDto).collect(Collectors.toList());
     }
+
+    public SingleBookDto getExactBookByIsbn(String isbn) {
+        return bookMapper.mapToSingleBookDto(bookRepository.getExactBookByIsbn(isbn));
+    }
 }

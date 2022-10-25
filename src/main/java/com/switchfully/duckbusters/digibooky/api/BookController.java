@@ -29,6 +29,12 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
+    @GetMapping(path = "{isbn}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public SingleBookDto getExactBookByIsbn(@PathVariable String isbn) {
+        return bookService.getExactBookByIsbn(isbn);
+    }
+
     @GetMapping(params = "isbn", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<SingleBookDto> getBookByIsbn(@RequestParam String isbn) {

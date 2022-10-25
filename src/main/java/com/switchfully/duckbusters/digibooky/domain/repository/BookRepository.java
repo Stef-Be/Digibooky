@@ -40,7 +40,7 @@ public class BookRepository {
         books.put(book9.getIsbn(), book9);
     }
 
-    public void addNewBook(Book book){
+    public void addNewBook(Book book) {
         books.put(book.getIsbn(), book);
 
     }
@@ -48,7 +48,6 @@ public class BookRepository {
     public Collection<Book> getAllBooks() {
         return books.values();
     }
-
 
 
     public List<Book> getByIsbn(String isbn) {
@@ -62,8 +61,8 @@ public class BookRepository {
         return foundBooks;
     }
 
-    public Book getExactBookByIsbn(String isbn){
-        if(!books.containsKey(isbn)) throw new IllegalArgumentException("Book "+isbn +" does not exist!");
+    public Book getExactBookByIsbn(String isbn) {
+        if (!books.containsKey(isbn)) throw new IllegalArgumentException("Book with isbn " + isbn + " does not exist!");
         return books.get(isbn);
     }
 
@@ -101,7 +100,7 @@ public class BookRepository {
 
     private static String getRegex(String searchParameter) {
         String regexFirst = searchParameter.toLowerCase().replace("*", ".*");
-        if (regexFirst.isBlank()){
+        if (regexFirst.isBlank()) {
             regexFirst = ".*";
         }
         return regexFirst;
