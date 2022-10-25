@@ -25,8 +25,10 @@ public class PersonRepository {
         System.out.println(admin.getId());
         Person librarian = new Person("8888888888888","librarian","librarian","alibrarian@digibooky.com",new Address("librarianstreet","8","1842","brussels"), "password");
         librarian.setRole(Role.LIBRARIAN);
+        Person member = new Person("7777777777777", "member", "member", "amember@digibooky.com", new Address("memberstreet", "7", "1742","brussels"), "password");
         personMap.put(admin.getId(), admin);
         personMap.put(librarian.getId(), librarian);
+        personMap.put(member.getId(), member);
     }
 
 

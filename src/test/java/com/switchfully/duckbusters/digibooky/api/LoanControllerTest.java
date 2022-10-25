@@ -5,6 +5,7 @@ import com.switchfully.duckbusters.digibooky.domain.loan.BookLoan;
 import com.switchfully.duckbusters.digibooky.domain.person.Person;
 import com.switchfully.duckbusters.digibooky.domain.repository.LoanRepository;
 import com.switchfully.duckbusters.digibooky.domain.repository.PersonRepository;
+import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,24 +30,15 @@ class LoanControllerTest {
     @Test
     void createLoan() {
 
-        Address address = new Address("funstreet", "11", "1111", "funcity");
-
-        Person person = new Person("1", "x@x.x", "a", "b", address, "password123");
-
-        personRepository.addPerson(person);
-
-        String requestBody = "{\n" +
-                "  \"memberId\": \"" + person.getId() + "\",\n" +
-                "  \"isbn\": \"1234567890123\"}";
-
         given()
                 .baseUri("http://localhost")
                 .port(port)
-                .header("Content-type", "application/json")
-                .and()
-                .body(requestBody)
+                .auth()
+                .preemptive()
+                .basic("amember@digibooky.com", "password")
+                .header("Accept", ContentType.JSON.getAcceptHeader())
                 .when()
-                .post("/loans/new")
+                .post("/loans/new?isbn=1234567890123")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.CREATED.value())
@@ -79,11 +71,15 @@ class LoanControllerTest {
 
         BookLoan bookLoan = new BookLoan("123", "456");
 
-       loanRepository.addLoan(bookLoan);
+        loanRepository.addLoan(bookLoan);
 
         given()
                 .baseUri("http://localhost")
                 .port(port)
+                .auth()
+                .preemptive()
+                .basic("amember@digibooky.com", "password")
+                .header("Accept", ContentType.JSON.getAcceptHeader())
                 .when()
                 .put("/loans/return/" + bookLoan.getId())
                 .then()
@@ -93,26 +89,23 @@ class LoanControllerTest {
     }
 
     @Test
-    void viewLoansOfMemberAsLibrarian(){
-        Address address = new Address("funstreet", "11", "1111", "funcity");
-
-        Person person1 = new Person("69", "x@x.x", "a", "b", address, "password123");
-
-        personRepository.addPerson(person1);
-
+    void viewLoansOfMemberAsLibrarian() {
         Person person = new Person("420",
                 "Chad",
                 "Giga",
                 "gigachad@based.com",
-                new Address("street","1","420","city"), "password123");
-        person.setRole(LIBRARIAN);
+                new Address("street", "1", "420", "city"), "password123");
         personRepository.addPerson(person);
 
         given()
                 .baseUri("http://localhost")
                 .port(port)
+                .auth()
+                .preemptive()
+                .basic("alibrarian@digibooky.com", "password")
+                .header("Accept", ContentType.JSON.getAcceptHeader())
                 .when()
-                .get("/loans/" + person.getId() + "/view?memberId=" + person1.getId())
+                .get("/loans/view?memberId=" + person.getId())
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.OK.value())
@@ -121,22 +114,18 @@ class LoanControllerTest {
     }
 
     @Test
-    void viewOverdueAsLibrarian(){
+    void viewOverdueAsLibrarian() {
 
-
-        Person person = new Person("420",
-                "Chad",
-                "Giga",
-                "gigachad@based.com",
-                new Address("street","1","420","city"), "password123");
-        person.setRole(LIBRARIAN);
-        personRepository.addPerson(person);
 
         given()
                 .baseUri("http://localhost")
                 .port(port)
+                .auth()
+                .preemptive()
+                .basic("alibrarian@digibooky.com", "password")
+                .header("Accept", ContentType.JSON.getAcceptHeader())
                 .when()
-                .get("/loans/" + person.getId() + "/overdue")
+                .get("/loans/overdue")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.OK.value())
