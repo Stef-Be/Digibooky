@@ -48,9 +48,9 @@ public class BookMapper {
 
         if(update.getTitle()!= null)book.setTitle(update.getTitle());
 
-        if(update.getAuthorFirstName()!= null)book.getAuthor().setFirstName(update.getAuthorFirstName());
+        if(update.getAuthorFirstName()!= null)book.getAuthor().setAuthorFirstname(update.getAuthorFirstName());
 
-        if(update.getAuthorLastName()!= null)book.getAuthor().setLastName(update.getAuthorLastName());
+        if(update.getAuthorLastName()!= null)book.getAuthor().setAuthorLastname(update.getAuthorLastName());
 
         if(update.getSummary()!= null)book.setSummary(update.getSummary());
     }

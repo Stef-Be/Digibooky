@@ -2,7 +2,6 @@ package com.switchfully.duckbusters.digibooky.service;
 
 import com.switchfully.duckbusters.digibooky.api.dto.AllBookDTO;
 import com.switchfully.duckbusters.digibooky.api.dto.UpdateBookDTO;
-import com.switchfully.duckbusters.digibooky.api.mapper.AuthorMapper;
 import com.switchfully.duckbusters.digibooky.api.mapper.BookMapper;
 import com.switchfully.duckbusters.digibooky.api.dto.RegisterBookDTO;
 import com.switchfully.duckbusters.digibooky.api.dto.SingleBookDto;
@@ -21,15 +20,13 @@ public class BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
-    private final AuthorMapper authorMapper;
 
     private final ValidationService validation;
 
-    public BookService(BookRepository bookRepository, BookMapper bookMapper, ValidationService validation, AuthorMapper authorMapper) {
+    public BookService(BookRepository bookRepository, BookMapper bookMapper, ValidationService validation) {
         this.bookRepository = bookRepository;
         this.bookMapper = bookMapper;
         this.validation = validation;
-        this.authorMapper = authorMapper;
     }
 
     public List<AllBookDTO> getAllBooks() {

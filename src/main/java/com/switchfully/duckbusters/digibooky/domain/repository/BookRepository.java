@@ -88,8 +88,8 @@ public class BookRepository {
         String regexLastName = getRegex(lastName);
 
         List<Book> foundBooks = books.values().stream()
-                .filter(book -> book.getAuthor().getFirstName().toLowerCase().matches(regexFirstName))
-                .filter(book -> book.getAuthor().getLastName().toLowerCase().matches(regexLastName)).toList();
+                .filter(book -> book.getAuthor().getAuthorFirstname().toLowerCase().matches(regexFirstName))
+                .filter(book -> book.getAuthor().getAuthorLastname().toLowerCase().matches(regexLastName)).toList();
 
         if (foundBooks.size() == 0) {
             throw new IllegalArgumentException("No book can be found from author " + firstName + " " + lastName);

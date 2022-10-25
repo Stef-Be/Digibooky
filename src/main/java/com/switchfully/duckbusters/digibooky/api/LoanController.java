@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "loans")
+@CrossOrigin
 public class LoanController {
 
     private final LoanService loanService;

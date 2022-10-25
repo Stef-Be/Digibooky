@@ -7,7 +7,7 @@ import java.util.Optional;
 public class SingleBookDto {
     private String isbn;
     private String title;
-    private Author author;
+    private String author;
     private String summary;
 
     private String lender;
@@ -34,7 +34,7 @@ public class SingleBookDto {
     }
 
     public SingleBookDto setAuthor(Author author) {
-        this.author = author;
+        this.author = author.getAuthorFirstname()+" "+author.getAuthorLastname();
         return this;
     }
 
@@ -51,7 +51,7 @@ public class SingleBookDto {
         return title;
     }
 
-    public Author getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
