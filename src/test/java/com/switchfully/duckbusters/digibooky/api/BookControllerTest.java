@@ -10,6 +10,7 @@ import com.switchfully.duckbusters.digibooky.domain.repository.BookRepository;
 import com.switchfully.duckbusters.digibooky.domain.repository.LoanRepository;
 import com.switchfully.duckbusters.digibooky.domain.repository.PersonRepository;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -166,14 +167,6 @@ class BookControllerTest {
     @Test
     void addBookHappyPath(){
 
-        Person person = new Person("1",
-                "Chad",
-                "Giga",
-                "gigachad@based.com",
-                new Address("street","1","420","city"),
-                "password123");
-        person.setRole(LIBRARIAN);
-        personRepository.addPerson(person);
 
         String requestBody = "{\n" +
                 "  \"isbn\": \"1111111111111\",\n" +
@@ -186,11 +179,15 @@ class BookControllerTest {
         given()
                 .baseUri("http://localhost")
                 .port(port)
+                .auth()
+                .preemptive()
+                .basic("alibrarian@digibooky.com", "password")
+                .header("Accept", ContentType.JSON.getAcceptHeader())
                 .header("Content-type", "application/json")
                 .and()
                 .body(requestBody)
                 .when()
-                .post("/books/" +person.getId()+"/register")
+                .post("/books/register")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.CREATED.value())
@@ -220,11 +217,15 @@ class BookControllerTest {
         given()
                 .baseUri("http://localhost")
                 .port(port)
+                .auth()
+                .preemptive()
+                .basic("gigachad@based.com", "password123")
+                .header("Accept", ContentType.JSON.getAcceptHeader())
                 .header("Content-type", "application/json")
                 .and()
                 .body(requestBody)
                 .when()
-                .post("/books/" +person.getId()+"/register")
+                .post("/books/register")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.FORBIDDEN.value())
@@ -344,20 +345,17 @@ class BookControllerTest {
 
     @Test
     void deleteBook(){
-        Person person = new Person("1",
-                "Chad",
-                "Giga",
-                "gigachad@based.com",
-                new Address("street","1","420","city"),
-                "password123");
-        person.setRole(LIBRARIAN);
-        personRepository.addPerson(person);
+
 
         given()
                 .baseUri("http://localhost")
                 .port(port)
+                .auth()
+                .preemptive()
+                .basic("alibrarian@digibooky.com", "password")
+                .header("Accept", ContentType.JSON.getAcceptHeader())
                 .when()
-                .put("/books/" +person.getId()+"/delete?isbn=1234567890123")
+                .put("/books/delete?isbn=1234567890123")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.OK.value())
@@ -367,14 +365,7 @@ class BookControllerTest {
 
     @Test
     void reRegisterDeletedBook(){
-        Person person = new Person("1",
-                "Chad",
-                "Giga",
-                "gigachad@based.com",
-                new Address("street","1","420","city"),
-                "password123");
-        person.setRole(LIBRARIAN);
-        personRepository.addPerson(person);
+
 
         bookRepository.getExactBookByIsbn("1234567890123").setInCatalogue(false);
 
@@ -389,11 +380,15 @@ class BookControllerTest {
         given()
                 .baseUri("http://localhost")
                 .port(port)
+                .auth()
+                .preemptive()
+                .basic("alibrarian@digibooky.com", "password")
+                .header("Accept", ContentType.JSON.getAcceptHeader())
                 .header("Content-type", "application/json")
                 .and()
                 .body(requestBody)
                 .when()
-                .post("/books/" +person.getId()+"/register")
+                .post("/books/register")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.CREATED.value())
@@ -404,14 +399,7 @@ class BookControllerTest {
     @Test
     void updateBook(){
 
-        Person person = new Person("1",
-                "Chad",
-                "Giga",
-                "gigachad@based.com",
-                new Address("street","1","420","city"),
-                "password123");
-        person.setRole(LIBRARIAN);
-        personRepository.addPerson(person);
+
 
         String requestBody = "{\n" +
                 "  \"title\": \"a book\",\n" +
@@ -423,11 +411,15 @@ class BookControllerTest {
         given()
                 .baseUri("http://localhost")
                 .port(port)
+                .auth()
+                .preemptive()
+                .basic("alibrarian@digibooky.com", "password")
+                .header("Accept", ContentType.JSON.getAcceptHeader())
                 .header("Content-type", "application/json")
                 .and()
                 .body(requestBody)
                 .when()
-                .put("/books/" +person.getId()+"/update?isbn=1234567890123")
+                .put("/books/update?isbn=1234567890123")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.OK.value())

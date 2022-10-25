@@ -41,8 +41,8 @@ public class BookService {
         return foundBooks.stream().filter(Book::isInCatalogue).map(bookMapper::mapToSingleBookDto).collect(Collectors.toList());
     }
 
-    public void registerNewBook(String librarianId, RegisterBookDTO freshBook) {
-        validation.validateAuthorization(librarianId, CRUD_BOOK);
+    public void registerNewBook(String auths, RegisterBookDTO freshBook) {
+        validation.validateAuthorization(auths, CRUD_BOOK);
         validateIsbn(freshBook.getIsbn());
         validateTitle(freshBook.getTitle());
         validateLastName(freshBook.getAuthorLastName());
@@ -70,14 +70,14 @@ public class BookService {
         if (name == null) throw new IllegalArgumentException("author last name is empty!");
     }
 
-    public void softDeleteBook(String librarianId, String isbn) {
-        validation.validateAuthorization(librarianId, CRUD_BOOK);
+    public void softDeleteBook(String auths, String isbn) {
+        validation.validateAuthorization(auths, CRUD_BOOK);
         bookRepository.getExactBookByIsbn(isbn).setInCatalogue(false);
     }
 
 
-    public void updateBook(String librarianId, String isbn, UpdateBookDTO update){
-        validation.validateAuthorization(librarianId, CRUD_BOOK);
+    public void updateBook(String auths, String isbn, UpdateBookDTO update){
+        validation.validateAuthorization(auths, CRUD_BOOK);
         bookMapper.updateBookFromDTO(update,bookRepository.getExactBookByIsbn(isbn));
     }
 
