@@ -5,10 +5,19 @@ import com.switchfully.duckbusters.digibooky.api.dto.RegisterBookDTO;
 import com.switchfully.duckbusters.digibooky.api.dto.SingleBookDto;
 import com.switchfully.duckbusters.digibooky.domain.book.Author;
 import com.switchfully.duckbusters.digibooky.domain.book.Book;
+import com.switchfully.duckbusters.digibooky.domain.repository.LoanRepository;
+import com.switchfully.duckbusters.digibooky.domain.repository.PersonRepository;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BookMapper {
+
+    private LoanRepository loanRepository;
+    private PersonRepository personRepository;
+
+    public BookMapper(LoanRepository loanRepository) {
+        this.loanRepository = loanRepository;
+    }
 
     public AllBookDTO mapToAllBookDto(Book book) {
         return new AllBookDTO()
@@ -18,7 +27,11 @@ public class BookMapper {
     }
 
     public SingleBookDto mapToSingleBookDto(Book book) {
-        return new SingleBookDto()
+
+        String lender = loanRepository.getLender(book);
+
+
+        return new SingleBookDto().setLender(lender)
                 .setIsbn(book.getIsbn())
                 .setTitle(book.getTitle())
                 .setAuthor(book.getAuthor())
