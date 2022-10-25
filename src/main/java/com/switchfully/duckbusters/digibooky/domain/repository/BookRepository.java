@@ -62,6 +62,11 @@ public class BookRepository {
         return foundBooks;
     }
 
+    public Book getExactBookByIsbn(String isbn){
+        if(!books.containsKey(isbn)) throw new IllegalArgumentException("Book "+isbn +" does not exist!");
+        return books.get(isbn);
+    }
+
 
     public boolean doesBookExist(String isbn) {
         return books.containsKey(isbn);

@@ -55,5 +55,11 @@ public class BookController {
         bookService.registerNewBook(librarianId,freshBook);
     }
 
+    @PutMapping(path = "{librarianId}/delete")
+    @ResponseStatus (HttpStatus.OK)
+    public void softDeleteBook(@PathVariable String librarianId, @RequestParam String isbn){
+        bookService.softDeleteBook(librarianId,isbn);
+    }
+
 
 }

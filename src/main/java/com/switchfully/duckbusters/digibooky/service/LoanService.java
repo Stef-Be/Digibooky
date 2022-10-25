@@ -65,6 +65,7 @@ public class LoanService {
     public void validateLoanBook(String loanISBN) {
         if (loanISBN == null) throw new IllegalArgumentException("no book provided!");
         if (!bookRepo.doesBookExist(loanISBN)) throw new IllegalArgumentException("no such book exists!");
+        if (!bookRepo.getExactBookByIsbn(loanISBN).isInCatalogue())throw new IllegalArgumentException("This book is no longer available!") ;
     }
 
     public void validateReturnBook(String id) {

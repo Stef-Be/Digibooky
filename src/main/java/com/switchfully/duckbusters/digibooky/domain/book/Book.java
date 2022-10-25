@@ -6,6 +6,8 @@ public class Book {
     private final Author author;
     private final String summary;
 
+    private boolean inCatalogue;
+
     public String getSummary() {
         return summary;
     }
@@ -15,6 +17,7 @@ public class Book {
         this.title = title;
         this.author = author;
         this.summary = summary;
+        this.inCatalogue = true;
     }
 
     public String getIsbn() {
@@ -29,4 +32,11 @@ public class Book {
         return author;
     }
 
+    public boolean isInCatalogue() {
+        return inCatalogue;
+    }
+
+    public void setInCatalogue(boolean inCatalogue) {
+        this.inCatalogue = inCatalogue;
+    }
 }
