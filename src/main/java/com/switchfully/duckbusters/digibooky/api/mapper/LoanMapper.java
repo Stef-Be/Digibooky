@@ -14,7 +14,7 @@ public class LoanMapper {
     }
 
     public LoanDto mapLoanToDTO(BookLoan loan){
-        return new LoanDto(loan.getId(), loan.getMember(), loan.getBook(),loan.getDueDate(),loan.getStatus());
+        return new LoanDto(loan.getId(), loan.getMember(), loan.getIsbn(),loan.getDueDate(),loan.getStatus());
     }
 
 }

@@ -6,17 +6,14 @@ import com.switchfully.duckbusters.digibooky.api.dto.LoanDto;
 import com.switchfully.duckbusters.digibooky.api.mapper.LoanMapper;
 import com.switchfully.duckbusters.digibooky.api.dto.returnBookDTO;
 import com.switchfully.duckbusters.digibooky.domain.loan.BookLoan;
-import com.switchfully.duckbusters.digibooky.domain.person.Feature;
 import com.switchfully.duckbusters.digibooky.domain.repository.BookRepository;
 import com.switchfully.duckbusters.digibooky.domain.repository.LoanRepository;
 import com.switchfully.duckbusters.digibooky.domain.repository.PersonRepository;
-import org.checkerframework.checker.units.qual.C;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.switchfully.duckbusters.digibooky.domain.loan.LoanStatus.*;
 import static com.switchfully.duckbusters.digibooky.domain.person.Feature.*;
@@ -56,7 +53,7 @@ public class LoanService {
     }
 
     public void checkIfLoanedOut(AddLoanDTO loan, BookLoan existing) {
-        if (loan.getIsbn().equals(existing.getBook()))
+        if (loan.getIsbn().equals(existing.getIsbn()))
             throw new IllegalArgumentException("this book is currently loaned out!");
     }
 

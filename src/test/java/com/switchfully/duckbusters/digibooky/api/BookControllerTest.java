@@ -2,9 +2,12 @@ package com.switchfully.duckbusters.digibooky.api;
 
 import com.switchfully.duckbusters.digibooky.api.dto.AllBookDTO;
 import com.switchfully.duckbusters.digibooky.api.dto.SingleBookDto;
+import com.switchfully.duckbusters.digibooky.domain.loan.BookLoan;
 import com.switchfully.duckbusters.digibooky.domain.person.Address;
 import com.switchfully.duckbusters.digibooky.domain.person.Person;
+import com.switchfully.duckbusters.digibooky.domain.person.Role;
 import com.switchfully.duckbusters.digibooky.domain.repository.BookRepository;
+import com.switchfully.duckbusters.digibooky.domain.repository.LoanRepository;
 import com.switchfully.duckbusters.digibooky.domain.repository.PersonRepository;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
@@ -30,6 +33,9 @@ class BookControllerTest {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private LoanRepository loanRepository;
 
     @BeforeAll
     public static void setup() {
@@ -102,6 +108,44 @@ class BookControllerTest {
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .extract();
 
+    }
+
+    @Test
+    void getBookByIsbnEnhancedWithLenderInformationWhenNoSuchLenderExists(){
+
+        SingleBookDto[] response = given()
+                .port(port)
+                .when()
+                .get("/books?isbn=1234567890123")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .as(SingleBookDto[].class);
+        assertThat(response[0].getLender()).isEqualTo("no such lender");
+    }
+
+    @Test
+    void getBookByIsbnEnhancedWithLenderInformationWhenLenderExists(){
+
+        String adminId = personRepository.getAllPersons().stream()
+                .filter(person -> person.getRole() == Role.ADMIN)
+                .toList()
+                .get(0)
+                .getId();
+
+        loanRepository.addLoan(new BookLoan(adminId, "1234567890123"));
+
+        SingleBookDto[] response = given()
+                .port(port)
+                .when()
+                .get("/books?isbn=1234567890123")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .as(SingleBookDto[].class);
+        assertThat(response[0].getLender()).isEqualTo("admin admin");
     }
 
     @Test

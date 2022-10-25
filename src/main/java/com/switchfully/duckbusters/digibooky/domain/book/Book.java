@@ -6,9 +6,6 @@ public class Book {
     private final Author author;
     private final String summary;
 
-    public String getSummary() {
-        return summary;
-    }
 
     public Book(String isbn, String title, Author author, String summary) {
         this.isbn = isbn;
@@ -17,6 +14,9 @@ public class Book {
         this.summary = summary;
     }
 
+    public String getSummary() {
+        return summary;
+    }
     public String getIsbn() {
         return isbn;
     }
@@ -28,5 +28,7 @@ public class Book {
     public Author getAuthor() {
         return author;
     }
+
+
 
 }
