@@ -33,8 +33,8 @@ public class SingleBookDto {
         return this;
     }
 
-    public SingleBookDto setAuthor(Author author) {
-        this.author = author.getAuthorFirstname()+" "+author.getAuthorLastname();
+    public SingleBookDto setAuthor(String author) {
+        this.author = author;
         return this;
     }
 
