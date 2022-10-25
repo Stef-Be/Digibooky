@@ -295,7 +295,7 @@ class BookControllerTest {
                 .statusCode(HttpStatus.OK.value())
                 .extract()
                 .as(SingleBookDto[].class);
-        assertThat(response.length).isEqualTo(bookRepository.getAllBooks().stream().filter(book -> book.getAuthor().getFirstName().equals("Tim")).toList().size());
+        assertThat(response.length).isEqualTo(bookRepository.getAllBooks().stream().filter(book -> book.getAuthor().getAuthorFirstname().equals("Tim")).toList().size());
     }
 
     @Test
@@ -309,7 +309,7 @@ class BookControllerTest {
                 .statusCode(HttpStatus.OK.value())
                 .extract()
                 .as(SingleBookDto[].class);
-        assertThat(response.length).isEqualTo(bookRepository.getAllBooks().stream().filter(book -> book.getAuthor().getLastName().contains("V")).toList().size());
+        assertThat(response.length).isEqualTo(bookRepository.getAllBooks().stream().filter(book -> book.getAuthor().getAuthorLastname().contains("V")).toList().size());
     }
 
     @Test
@@ -323,7 +323,7 @@ class BookControllerTest {
                 .statusCode(HttpStatus.OK.value())
                 .extract()
                 .as(SingleBookDto[].class);
-        assertThat(response.length).isEqualTo(bookRepository.getAllBooks().stream().filter(book -> book.getAuthor().getFirstName().equals("Tim")).toList().size());
+        assertThat(response.length).isEqualTo(bookRepository.getAllBooks().stream().filter(book -> book.getAuthor().getAuthorFirstname().equals("Tim")).toList().size());
     }
 
     @Test
