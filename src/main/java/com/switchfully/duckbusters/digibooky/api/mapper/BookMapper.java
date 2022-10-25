@@ -24,18 +24,17 @@ public class BookMapper {
         return new AllBookDTO()
                 .setIsbn(book.getIsbn())
                 .setTitle(book.getTitle())
-                .setAuthor(book.getAuthor());
+                .setAuthor(book.getAuthor().getFullName());
     }
 
     public SingleBookDto mapToSingleBookDto(Book book) {
 
         String lender = loanRepository.getLender(book);
 
-
         return new SingleBookDto().setLender(lender)
                 .setIsbn(book.getIsbn())
                 .setTitle(book.getTitle())
-                .setAuthor(book.getAuthor())
+                .setAuthor(book.getAuthor().getFullName())
                 .setSummary(book.getSummary());
     }
 

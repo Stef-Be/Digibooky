@@ -5,7 +5,7 @@ import com.switchfully.duckbusters.digibooky.domain.book.Author;
 public class AllBookDTO {
     private  String isbn;
     private  String title;
-    private  Author author;
+    private  String author;
 
     public AllBookDTO setIsbn(String isbn) {
         this.isbn = isbn;
@@ -17,7 +17,7 @@ public class AllBookDTO {
         return this;
     }
 
-    public AllBookDTO setAuthor(Author author) {
+    public AllBookDTO setAuthor(String author) {
         this.author = author;
         return this;
     }
@@ -30,7 +30,7 @@ public class AllBookDTO {
         return title;
     }
 
-    public Author getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
