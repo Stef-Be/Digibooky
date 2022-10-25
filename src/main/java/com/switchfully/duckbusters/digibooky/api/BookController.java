@@ -52,22 +52,22 @@ public class BookController {
         return bookService.getByAuthor(firstName, lastName);
     }
 
-    @PostMapping(path = "{librarianId}/register", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "register", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerNewBook(@PathVariable String librarianId, @RequestBody RegisterBookDTO freshBook){
-        bookService.registerNewBook(librarianId,freshBook);
+    public void registerNewBook(@RequestHeader String authorization, @RequestBody RegisterBookDTO freshBook){
+        bookService.registerNewBook(authorization,freshBook);
     }
 
-    @PutMapping(path = "{librarianId}/delete")
+    @PutMapping(path = "delete")
     @ResponseStatus (HttpStatus.OK)
-    public void softDeleteBook(@PathVariable String librarianId, @RequestParam String isbn){
-        bookService.softDeleteBook(librarianId,isbn);
+    public void softDeleteBook(@RequestHeader String authorization, @RequestParam String isbn){
+        bookService.softDeleteBook(authorization,isbn);
     }
 
-    @PutMapping(path = "{librarianId}/update",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "update",consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus (HttpStatus.OK)
-    public void updateBook(@PathVariable String librarianId, @RequestParam String isbn, @RequestBody UpdateBookDTO update){
-        bookService.updateBook(librarianId,isbn,update);
+    public void updateBook(@RequestHeader String authorization, @RequestParam String isbn, @RequestBody UpdateBookDTO update){
+        bookService.updateBook(authorization,isbn,update);
     }
 
 
