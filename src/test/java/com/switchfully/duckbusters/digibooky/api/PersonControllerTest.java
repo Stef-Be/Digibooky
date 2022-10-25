@@ -2,6 +2,8 @@ package com.switchfully.duckbusters.digibooky.api;
 
 import com.switchfully.duckbusters.digibooky.domain.person.Role;
 import com.switchfully.duckbusters.digibooky.domain.repository.PersonRepository;
+import io.restassured.http.ContentType;
+import io.restassured.http.Header;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,12 @@ class PersonControllerTest {
             "  \"street\": \"abcstreet\", \n" +
             "  \"houseNumber\": \"11\", \n" +
             "  \"postalCode\": \"1234\", \n" +
-            "  \"city\": \"Brussels\"}";
+            "  \"city\": \"Brussels\", \n" +
+            "  \"password\": \"Brussels\"}";
+
+    private String validRequest = "{\n" +
+            "  \"username\": \"admin@digibooky.com\",\n" +
+            "  \"password\": \"password\" \n}";
 
     @LocalServerPort
     private int port;
@@ -52,19 +59,17 @@ class PersonControllerTest {
 
     @Test
     void registerLibrarian() {
-        String adminId = personRepository.getAllPersons().stream()
-                .filter(person -> person.getRole() == Role.ADMIN)
-                .toList()
-                .get(0)
-                .getId();
         given()
                 .baseUri("http://localhost")
                 .port(port)
                 .header("Content-type", "application/json")
-                .and()
+                .auth()
+                .preemptive()
+                .basic("admin@digibooky.com", "password")
+                .header("Accept", ContentType.JSON.getAcceptHeader())
                 .body(requestBody)
                 .when()
-                .post("/person/" + adminId + "/registerLibrarian")
+                .post("/person/registerLibrarian")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.CREATED.value())
@@ -89,11 +94,15 @@ class PersonControllerTest {
         given()
                 .baseUri("http://localhost")
                 .port(port)
+                .auth()
+                .preemptive()
+                .basic("alibrarian@digibooky.com", "password")
+                .header("Accept", ContentType.JSON.getAcceptHeader())
                 .header("Content-type", "application/json")
                 .and()
                 .body(requestBody)
                 .when()
-                .post("/person/" + adminId + "/registerLibrarian")
+                .post("/person/registerLibrarian")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.FORBIDDEN.value())
@@ -102,19 +111,18 @@ class PersonControllerTest {
 
     @Test
     void viewAllMember_WhenIsAdmin() {
-        String adminId = personRepository.getAllPersons().stream()
-                .filter(person -> person.getRole() == Role.ADMIN)
-                .toList()
-                .get(0)
-                .getId();
 
         given()
                 .baseUri("http://localhost")
                 .port(port)
+                .auth()
+                .preemptive()
+                .basic("admin@digibooky.com", "password")
+                .header("Accept", ContentType.JSON.getAcceptHeader())
                 .header("Content-type", "application/json")
                 .and()
                 .when()
-                .get("/person/" + adminId + "/listofpersons")
+                .get("/person/listofpersons")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.OK.value())
@@ -123,19 +131,17 @@ class PersonControllerTest {
     }
     @Test
     void viewAllMember_WhenIsNotAdmin() {
-        String adminId = personRepository.getAllPersons().stream()
-                .filter(person -> person.getRole() == Role.LIBRARIAN)
-                .toList()
-                .get(0)
-                .getId();
-
         given()
                 .baseUri("http://localhost")
                 .port(port)
+                .auth()
+                .preemptive()
+                .basic("alibrarian@digibooky.com", "password")
+                .header("Accept", ContentType.JSON.getAcceptHeader())
                 .header("Content-type", "application/json")
                 .and()
                 .when()
-                .get("/person/" + adminId + "/listofpersons")
+                .get("/person/listofpersons")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.FORBIDDEN.value())

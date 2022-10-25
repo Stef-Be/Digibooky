@@ -27,16 +27,16 @@ public class PersonController {
         service.addPersonToRepo(freshPerson);
     }
 
-    @PostMapping(path = "{adminId}/registerLibrarian", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "registerLibrarian", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerLibrarian(@PathVariable String adminId, @RequestBody CreatePersonDTO newPerson) {
-        service.registerLibrarian(adminId, newPerson);
+    public void registerLibrarian(@RequestHeader String authorization, @RequestBody CreatePersonDTO newPerson) {
+        service.registerLibrarian(authorization, newPerson);
     }
 
-    @GetMapping(path = "{id}/listofpersons", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "listofpersons", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<PersonDTO> getListOfPersons(@PathVariable String id) {
-        return service.getAllPersons(id);
+    public List<PersonDTO> getListOfPersons(@RequestHeader String authorization) {
+        return service.getAllPersons(authorization);
     }
 
 }

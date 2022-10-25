@@ -170,7 +170,8 @@ class BookControllerTest {
                 "Chad",
                 "Giga",
                 "gigachad@based.com",
-                new Address("street","1","420","city"));
+                new Address("street","1","420","city"),
+                "password123");
         person.setRole(LIBRARIAN);
         personRepository.addPerson(person);
 
@@ -203,7 +204,8 @@ class BookControllerTest {
                 "Chad",
                 "Giga",
                 "gigachad@based.com",
-                new Address("street","1","420","city"));
+                new Address("street","1","420","city"),
+                "password123");
 
         personRepository.addPerson(person);
 
@@ -346,7 +348,8 @@ class BookControllerTest {
                 "Chad",
                 "Giga",
                 "gigachad@based.com",
-                new Address("street","1","420","city"));
+                new Address("street","1","420","city"),
+                "password123");
         person.setRole(LIBRARIAN);
         personRepository.addPerson(person);
 
@@ -368,7 +371,8 @@ class BookControllerTest {
                 "Chad",
                 "Giga",
                 "gigachad@based.com",
-                new Address("street","1","420","city"));
+                new Address("street","1","420","city"),
+                "password123");
         person.setRole(LIBRARIAN);
         personRepository.addPerson(person);
 
@@ -404,7 +408,8 @@ class BookControllerTest {
                 "Chad",
                 "Giga",
                 "gigachad@based.com",
-                new Address("street","1","420","city"));
+                new Address("street","1","420","city"),
+                "password123");
         person.setRole(LIBRARIAN);
         personRepository.addPerson(person);
 

@@ -31,7 +31,7 @@ class LoanControllerTest {
 
         Address address = new Address("funstreet", "11", "1111", "funcity");
 
-        Person person = new Person("1", "x@x.x", "a", "b", address);
+        Person person = new Person("1", "x@x.x", "a", "b", address, "password123");
 
         personRepository.addPerson(person);
 
@@ -96,7 +96,7 @@ class LoanControllerTest {
     void viewLoansOfMemberAsLibrarian(){
         Address address = new Address("funstreet", "11", "1111", "funcity");
 
-        Person person1 = new Person("69", "x@x.x", "a", "b", address);
+        Person person1 = new Person("69", "x@x.x", "a", "b", address, "password123");
 
         personRepository.addPerson(person1);
 
@@ -104,7 +104,7 @@ class LoanControllerTest {
                 "Chad",
                 "Giga",
                 "gigachad@based.com",
-                new Address("street","1","420","city"));
+                new Address("street","1","420","city"), "password123");
         person.setRole(LIBRARIAN);
         personRepository.addPerson(person);
 
@@ -128,7 +128,7 @@ class LoanControllerTest {
                 "Chad",
                 "Giga",
                 "gigachad@based.com",
-                new Address("street","1","420","city"));
+                new Address("street","1","420","city"), "password123");
         person.setRole(LIBRARIAN);
         personRepository.addPerson(person);
 

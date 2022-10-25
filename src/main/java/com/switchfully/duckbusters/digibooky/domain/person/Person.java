@@ -11,9 +11,11 @@ public class Person {
     private String eMail;
     private Address address;
     private Role role;
+    private String password;
 
 
-    public Person(String inss, String firstName, String lastName, String eMail, Address adress) {
+    public Person(String inss, String firstName, String lastName, String eMail, Address adress, String password) {
+        this.password = password;
         this.id = UUID.randomUUID().toString();
         this.inss = inss;
         this.firstName = firstName;
@@ -59,5 +61,8 @@ public class Person {
     }
     public boolean canHaveAccessTo(Feature feature) {
         return role.containsFeature(feature);
+    }
+    public boolean doesPasswordMatch(String password) {
+        return this.password.equals(password);
     }
 }
