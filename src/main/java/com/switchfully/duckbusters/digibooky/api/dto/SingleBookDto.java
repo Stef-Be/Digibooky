@@ -2,11 +2,20 @@ package com.switchfully.duckbusters.digibooky.api.dto;
 
 import com.switchfully.duckbusters.digibooky.domain.book.Author;
 
+import java.util.Optional;
+
 public class SingleBookDto {
     private String isbn;
     private String title;
     private Author author;
     private String summary;
+
+    private String lender;
+
+    public SingleBookDto setLender(String lender){
+        this.lender = lender;
+        return this;
+    }
 
     public SingleBookDto setSummary(String summary) {
         this.summary = summary;
@@ -29,6 +38,10 @@ public class SingleBookDto {
         return this;
     }
 
+
+    public String getLender() {
+        return lender;
+    }
 
     public String getIsbn() {
         return isbn;

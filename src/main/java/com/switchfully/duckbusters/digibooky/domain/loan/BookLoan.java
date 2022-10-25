@@ -10,14 +10,14 @@ public class BookLoan {
     private final String member;
     private final String id;
     private LocalDate dueDate;
-    private final String book;
+    private final String isbn;
     private LoanStatus status;
 
     public BookLoan(String member, String book) {
         this.id = UUID.randomUUID().toString();
         this.dueDate = LocalDate.now().plusDays(21);
         this.member = member;
-        this.book = book;
+        this.isbn = book;
         this.status = LOANED_OUT;
     }
 
@@ -33,8 +33,8 @@ public class BookLoan {
         return status;
     }
 
-    public String getBook() {
-        return book;
+    public String getIsbn() {
+        return isbn;
     }
 
     public LocalDate getDueDate() {

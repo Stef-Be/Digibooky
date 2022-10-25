@@ -53,7 +53,7 @@ public class LoanService {
     }
 
     public void checkIfLoanedOut(AddLoanDTO loan, BookLoan existing) {
-        if (loan.getIsbn().equals(existing.getBook()))
+        if (loan.getIsbn().equals(existing.getIsbn()))
             throw new IllegalArgumentException("this book is currently loaned out!");
     }
 
