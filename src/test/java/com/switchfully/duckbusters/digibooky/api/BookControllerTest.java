@@ -352,4 +352,36 @@ class BookControllerTest {
                 .extract();
 
     }
+
+    @Test
+    void updateBook(){
+
+        Person person = new Person("1",
+                "Chad",
+                "Giga",
+                "gigachad@based.com",
+                new Address("street","1","420","city"));
+        person.setRole(LIBRARIAN);
+        personRepository.addPerson(person);
+
+        String requestBody = "{\n" +
+                "  \"title\": \"a book\",\n" +
+                "  \"authorFirstName\": \"a\",\n" +
+                "  \"authorLastName\": \"e\",\n" +
+                "  \"summary\": \"this is a summary\"}"
+                ;
+
+        given()
+                .baseUri("http://localhost")
+                .port(port)
+                .header("Content-type", "application/json")
+                .and()
+                .body(requestBody)
+                .when()
+                .put("/books/" +person.getId()+"/update?isbn=1234567890123")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract();
+    }
 }

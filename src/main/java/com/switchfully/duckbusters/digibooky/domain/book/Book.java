@@ -2,9 +2,9 @@ package com.switchfully.duckbusters.digibooky.domain.book;
 
 public class Book {
     private final String isbn;
-    private final String title;
-    private final Author author;
-    private final String summary;
+    private String title;
+    private Author author;
+    private String summary;
 
     private boolean inCatalogue;
 
@@ -38,5 +38,17 @@ public class Book {
 
     public void setInCatalogue(boolean inCatalogue) {
         this.inCatalogue = inCatalogue;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 }

@@ -1,8 +1,8 @@
 package com.switchfully.duckbusters.digibooky.domain.book;
 
 public class Author {
-    private final String firstName;
-    private final String lastName;
+    private  String firstName;
+    private  String lastName;
 
     public Author(String firstName, String lastName) {
         this.firstName = firstName;
@@ -15,5 +15,13 @@ public class Author {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
