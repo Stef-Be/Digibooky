@@ -339,4 +339,61 @@ class BookControllerTest {
                 .as(SingleBookDto[].class);
         assertThat(response.length).isEqualTo(bookRepository.getAllBooks().size());
     }
+
+    @Test
+    void deleteBook(){
+        Person person = new Person("1",
+                "Chad",
+                "Giga",
+                "gigachad@based.com",
+                new Address("street","1","420","city"));
+        person.setRole(LIBRARIAN);
+        personRepository.addPerson(person);
+
+        given()
+                .baseUri("http://localhost")
+                .port(port)
+                .when()
+                .put("/books/" +person.getId()+"/delete?isbn=1234567890123")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract();
+
+    }
+
+    @Test
+    void reRegisterDeletedBook(){
+        Person person = new Person("1",
+                "Chad",
+                "Giga",
+                "gigachad@based.com",
+                new Address("street","1","420","city"));
+        person.setRole(LIBRARIAN);
+        personRepository.addPerson(person);
+
+        bookRepository.getExactBookByIsbn("1234567890123").setInCatalogue(false);
+
+        String requestBody = "{\n" +
+                "  \"isbn\": \"1234567890123\",\n" +
+                "  \"title\": \"a book\",\n" +
+                "  \"authorFirstName\": \"a\",\n" +
+                "  \"authorLastName\": \"e\",\n" +
+                "  \"summary\": \"this is a summary\"}"
+                ;
+
+        given()
+                .baseUri("http://localhost")
+                .port(port)
+                .header("Content-type", "application/json")
+                .and()
+                .body(requestBody)
+                .when()
+                .post("/books/" +person.getId()+"/register")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract();
+
+    }
 }

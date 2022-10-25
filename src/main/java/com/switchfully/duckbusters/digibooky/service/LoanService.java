@@ -65,6 +65,7 @@ public class LoanService {
     public void validateLoanBook(String loanISBN) {
         if (loanISBN == null) throw new IllegalArgumentException("no book provided!");
         if (!bookRepo.doesBookExist(loanISBN)) throw new IllegalArgumentException("no such book exists!");
+        if (!bookRepo.getExactBookByIsbn(loanISBN).isInCatalogue())throw new IllegalArgumentException("This book is no longer available!") ;
     }
 
     public void validateReturnBook(String id) {
@@ -87,10 +88,18 @@ public class LoanService {
     }
 
     public List<LoanDto> getLoansFromMember(String librarianId, String memberId){
-        validation.validateAuthorization(librarianId, VIEW_MEMBER_LOANS);
+        validation.validateAuthorization(librarianId, VIEW_LOANS);
         validateLoanMember(memberId);
         return loanRepo.getAllLoans().stream()
                 .filter(bookLoan -> bookLoan.getMember().equals(memberId))
+                .map(loanMapper::mapLoanToDTO).toList();
+    }
+
+    public List<LoanDto> getOverdueLoans(String librarianId){
+        validation.validateAuthorization(librarianId, VIEW_LOANS);
+        return loanRepo.getAllLoans().stream()
+                .filter(bookLoan -> bookLoan.getStatus().equals(LOANED_OUT))
+                .filter(bookLoan -> bookLoan.getDueDate().isBefore(LocalDate.now()))
                 .map(loanMapper::mapLoanToDTO).toList();
     }
 }
