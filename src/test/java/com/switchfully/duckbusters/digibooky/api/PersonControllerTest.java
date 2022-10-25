@@ -31,9 +31,6 @@ class PersonControllerTest {
             "  \"city\": \"Brussels\", \n" +
             "  \"password\": \"Brussels\"}";
 
-    private String validRequest = "{\n" +
-            "  \"username\": \"admin@digibooky.com\",\n" +
-            "  \"password\": \"password\" \n}";
 
     @LocalServerPort
     private int port;
