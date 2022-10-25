@@ -11,7 +11,9 @@ public class CreatePersonDTO {
     private String postalCode;
     private String city;
 
-    public CreatePersonDTO(String inss, String eMail, String firstName, String lastName, String street, String houseNumber, String postalCode, String city) {
+    private String password;
+
+    public CreatePersonDTO(String inss, String eMail, String firstName, String lastName, String street, String houseNumber, String postalCode, String city, String password) {
         this.inss = inss;
         this.eMail = eMail;
         this.firstName = firstName;
@@ -20,8 +22,12 @@ public class CreatePersonDTO {
         this.houseNumber = houseNumber;
         this.postalCode = postalCode;
         this.city = city;
+        this.password = password;
     }
 
+    public String getPassword() {
+        return password;
+    }
 
     public String getInss() {
         return inss;

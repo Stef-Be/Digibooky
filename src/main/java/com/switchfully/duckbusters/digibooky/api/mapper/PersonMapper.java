@@ -20,7 +20,8 @@ public class PersonMapper {
                 freshPerson.getFirstName(),
                 freshPerson.getLastName(),
                 freshPerson.geteMail(),
-                createAddress(freshPerson));
+                createAddress(freshPerson),
+                freshPerson.getPassword());
     }
 
 
