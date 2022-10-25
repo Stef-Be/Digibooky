@@ -119,4 +119,30 @@ class LoanControllerTest {
                 .extract();
 
     }
+
+    @Test
+    void viewOverdueAsLibrarian(){
+
+
+        Person person = new Person("420",
+                "Chad",
+                "Giga",
+                "gigachad@based.com",
+                new Address("street","1","420","city"));
+        person.setRole(LIBRARIAN);
+        personRepository.addPerson(person);
+
+        given()
+                .baseUri("http://localhost")
+                .port(port)
+                .when()
+                .get("/loans/" + person.getId() + "/overdue")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract();
+
+    }
+
+
 }
