@@ -1,6 +1,7 @@
 package com.switchfully.duckbusters.digibooky.service;
 
 import com.switchfully.duckbusters.digibooky.api.dto.AllBookDTO;
+import com.switchfully.duckbusters.digibooky.api.dto.UpdateBookDTO;
 import com.switchfully.duckbusters.digibooky.api.mapper.AuthorMapper;
 import com.switchfully.duckbusters.digibooky.api.mapper.BookMapper;
 import com.switchfully.duckbusters.digibooky.api.dto.RegisterBookDTO;
@@ -75,6 +76,12 @@ public class BookService {
     public void softDeleteBook(String librarianId, String isbn) {
         validation.validateAuthorization(librarianId, CRUD_BOOK);
         bookRepository.getExactBookByIsbn(isbn).setInCatalogue(false);
+    }
+
+
+    public void updateBook(String librarianId, String isbn, UpdateBookDTO update){
+        validation.validateAuthorization(librarianId, CRUD_BOOK);
+        bookMapper.updateBookFromDTO(update,bookRepository.getExactBookByIsbn(isbn));
     }
 
 

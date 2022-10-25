@@ -1,9 +1,6 @@
 package com.switchfully.duckbusters.digibooky.api;
 
-import com.switchfully.duckbusters.digibooky.api.dto.AllBookDTO;
-import com.switchfully.duckbusters.digibooky.api.dto.AuthorDTO;
-import com.switchfully.duckbusters.digibooky.api.dto.RegisterBookDTO;
-import com.switchfully.duckbusters.digibooky.api.dto.SingleBookDto;
+import com.switchfully.duckbusters.digibooky.api.dto.*;
 import com.switchfully.duckbusters.digibooky.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +56,12 @@ public class BookController {
     @ResponseStatus (HttpStatus.OK)
     public void softDeleteBook(@PathVariable String librarianId, @RequestParam String isbn){
         bookService.softDeleteBook(librarianId,isbn);
+    }
+
+    @PutMapping(path = "{librarianId}/update",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus (HttpStatus.OK)
+    public void updateBook(@PathVariable String librarianId, @RequestParam String isbn, @RequestBody UpdateBookDTO update){
+        bookService.updateBook(librarianId,isbn,update);
     }
 
 
