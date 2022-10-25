@@ -43,7 +43,7 @@ public class BookService {
         return foundBooks.stream().filter(Book::isInCatalogue).map(bookMapper::mapToSingleBookDto).collect(Collectors.toList());
     }
 
-    public void registerNewBook(String librarianId,RegisterBookDTO freshBook){
+    public void registerNewBook(String librarianId, RegisterBookDTO freshBook) {
         validation.validateAuthorization(librarianId, CRUD_BOOK);
         validateIsbn(freshBook.getIsbn());
         validateTitle(freshBook.getTitle());
@@ -51,31 +51,31 @@ public class BookService {
         bookRepository.addNewBook(bookMapper.createBookFromDto(freshBook));
     }
 
-    private void validateIsbn(String isbn){
-        if(isbn == null)throw new IllegalArgumentException("isbn is empty!");
-        if(isbn.length() != 13) throw new IllegalArgumentException("isbn must be 13 characters long!");
-        if(bookRepository.doesBookExist(isbn));
+    private void validateIsbn(String isbn) {
+        if (isbn == null) throw new IllegalArgumentException("isbn is empty!");
+        if (isbn.length() != 13) throw new IllegalArgumentException("isbn must be 13 characters long!");
+        if (bookRepository.doesBookExist(isbn)) checkReRegisterBook(isbn);
     }
 
-    private void checkReturnBook(String isbn){
-        if (bookRepository.getExactBookByIsbn(isbn).isInCatalogue())throw new IllegalArgumentException("isbn must be unique!");
+    private void checkReRegisterBook(String isbn) {
+        if (bookRepository.getExactBookByIsbn(isbn).isInCatalogue())
+            throw new IllegalArgumentException("isbn must be unique!");
 
         bookRepository.getExactBookByIsbn(isbn).setInCatalogue(true);
     }
 
-    private void validateTitle(String title){
-        if(title == null)throw new IllegalArgumentException("title is empty!");
+    private void validateTitle(String title) {
+        if (title == null) throw new IllegalArgumentException("title is empty!");
     }
 
-    private void validateLastName(String name){
-        if(name == null)throw new IllegalArgumentException("author last name is empty!");
+    private void validateLastName(String name) {
+        if (name == null) throw new IllegalArgumentException("author last name is empty!");
     }
 
-    public void softDeleteBook(String librarianId, String isbn){
+    public void softDeleteBook(String librarianId, String isbn) {
         validation.validateAuthorization(librarianId, CRUD_BOOK);
         bookRepository.getExactBookByIsbn(isbn).setInCatalogue(false);
     }
-
 
 
     public List<SingleBookDto> getByTitle(String title) {
