@@ -1,12 +1,10 @@
 package com.switchfully.duckbusters.digibooky.api;
 
-import com.switchfully.duckbusters.digibooky.api.dto.AddLoanDTO;
 import com.switchfully.duckbusters.digibooky.api.dto.LoanDto;
 import com.switchfully.duckbusters.digibooky.api.dto.returnBookDTO;
 import com.switchfully.duckbusters.digibooky.service.LoanService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.tags.Param;
 
 import java.util.List;
 
@@ -21,28 +19,28 @@ public class LoanController {
         this.loanService = loanService;
     }
 
-    @PostMapping(path = "/new", consumes = "application/json")
+    @PostMapping(path = "/new")
     @ResponseStatus(HttpStatus.CREATED)
-    public void newLoan(@RequestBody AddLoanDTO loanInfo){
-        loanService.LoanBook(loanInfo);
+    public void newLoan(@RequestHeader String authorization, @RequestParam String isbn){
+        loanService.loanBook(authorization, isbn);
     }
 
-    @PutMapping(path = "/return/{id}", produces = "application/json")
+    @PutMapping(path = "/return/{loanId}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public returnBookDTO returnLoan(@PathVariable String id){
-        return loanService.returnBook(id);
+    public returnBookDTO returnLoan(@RequestHeader String authorization, @PathVariable String loanId){
+        return loanService.returnBook(authorization, loanId);
     }
 
-    @GetMapping(path = "{librarianId}/view", produces = "application/json")
+    @GetMapping(path = "view", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public List<LoanDto> getLoansFromMember(@PathVariable String librarianId, @RequestParam String memberId){
-        return loanService.getLoansFromMember(librarianId,memberId);
+    public List<LoanDto> getLoansFromMember(@RequestHeader String authorization, @RequestParam String memberId){
+        return loanService.getLoansFromMember(authorization,memberId);
     }
 
-    @GetMapping(path = "{librarianId}/overdue", produces = "application/json")
+    @GetMapping(path = "overdue", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public List<LoanDto> getOverDueLoans(@PathVariable String librarianId){
-        return loanService.getOverdueLoans(librarianId);
+    public List<LoanDto> getOverDueLoans(@RequestHeader String authorization){
+        return loanService.getOverdueLoans(authorization);
     }
 
 

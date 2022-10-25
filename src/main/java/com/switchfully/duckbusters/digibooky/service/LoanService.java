@@ -1,7 +1,6 @@
 package com.switchfully.duckbusters.digibooky.service;
 
 
-import com.switchfully.duckbusters.digibooky.api.dto.AddLoanDTO;
 import com.switchfully.duckbusters.digibooky.api.dto.LoanDto;
 import com.switchfully.duckbusters.digibooky.api.mapper.LoanMapper;
 import com.switchfully.duckbusters.digibooky.api.dto.returnBookDTO;
@@ -38,22 +37,22 @@ public class LoanService {
         this.validation = validation;
     }
 
-    public void LoanBook(AddLoanDTO loan) {
-        validateLoan(loan);
-        loanRepo.addLoan(loanMapper.createNewLoan(loan));
+    public void loanBook(String auths, String isbn) {
+        validation.validateAuthorization(auths, LOAN_BOOK);
+        validateLoan(isbn);
+        loanRepo.addLoan(new BookLoan(personRepo.getPersonbyEmail(validation.getEmail(auths)).getId(), isbn));
 
     }
 
-    public void validateLoan(AddLoanDTO freshLoan) {
-        validateLoanMember(freshLoan.getMemberId());
-        validateLoanBook(freshLoan.getIsbn());
+    public void validateLoan(String isbn) {
+        validateLoanBook(isbn);
         loanRepo.getAllLoans().stream()
                 .filter(loan -> loan.getStatus().equals(LOANED_OUT))
-                .forEach(loan -> checkIfLoanedOut(freshLoan, loan));
+                .forEach(loan -> checkIfLoanedOut(isbn, loan));
     }
 
-    public void checkIfLoanedOut(AddLoanDTO loan, BookLoan existing) {
-        if (loan.getIsbn().equals(existing.getIsbn()))
+    public void checkIfLoanedOut(String isbn, BookLoan existing) {
+        if (isbn.equals(existing.getIsbn()))
             throw new IllegalArgumentException("this book is currently loaned out!");
     }
 
@@ -68,17 +67,18 @@ public class LoanService {
         if (!bookRepo.getExactBookByIsbn(loanISBN).isInCatalogue())throw new IllegalArgumentException("This book is no longer available!") ;
     }
 
-    public void validateReturnBook(String id) {
-        if (!loanRepo.doesLoanExist(id)) throw new IllegalArgumentException("No such loan exists!");
-        if (loanRepo.getLoan(id).getStatus().equals(RETURNED))
+    public void validateReturnBook(String loanId) {
+        if (!loanRepo.doesLoanExist(loanId)) throw new IllegalArgumentException("No such loan exists!");
+        if (loanRepo.getLoan(loanId).getStatus().equals(RETURNED))
             throw new IllegalArgumentException("This book has already been returned!");
     }
 
-    public returnBookDTO returnBook(String id) {
-        validateReturnBook(id);
-        BookLoan loan = loanRepo.getLoan(id);
+    public returnBookDTO returnBook(String auths, String loanId) {
+        validation.validateAuthorization(auths, LOAN_BOOK);
+        validateReturnBook(loanId);
+        BookLoan loan = loanRepo.getLoan(loanId);
         loan.setStatus(RETURNED);
-        return new returnBookDTO(id, loan.getDueDate(), checkDueDate(loan));
+        return new returnBookDTO(loanId, loan.getDueDate(), checkDueDate(loan));
     }
 
     public String checkDueDate(BookLoan loan) {
@@ -87,8 +87,8 @@ public class LoanService {
         return "This book is " + Duration.between(dueDate, LocalDate.now()) + " days late!";
     }
 
-    public List<LoanDto> getLoansFromMember(String librarianId, String memberId){
-        validation.validateAuthorization(librarianId, VIEW_LOANS);
+    public List<LoanDto> getLoansFromMember(String auths, String memberId){
+        validation.validateAuthorization(auths, VIEW_LOANS);
         validateLoanMember(memberId);
         return loanRepo.getAllLoans().stream()
                 .filter(bookLoan -> bookLoan.getMember().equals(memberId))

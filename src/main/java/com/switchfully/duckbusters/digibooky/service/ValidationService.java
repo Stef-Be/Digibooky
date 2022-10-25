@@ -41,6 +41,11 @@ public class ValidationService {
         }
 
     }
+
+    public String getEmail(String auth){
+        return getUsernamePassword(auth).getUsername();
+    }
+
     private UsernamePassword getUsernamePassword(String authorization) {
         String decodedUsernameAndPassword = new String(Base64.getDecoder().decode(authorization.substring("Basic ".length())));
         String username = decodedUsernameAndPassword.substring(0, decodedUsernameAndPassword.indexOf(":"));
