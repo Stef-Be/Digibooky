@@ -38,4 +38,11 @@ public class LoanController {
         return loanService.getLoansFromMember(librarianId,memberId);
     }
 
+    @GetMapping(path = "{librarianId}/overdue", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public List<LoanDto> getOverDueLoans(@PathVariable String librarianId){
+        return loanService.getOverdueLoans(librarianId);
+    }
+
+
 }
