@@ -46,6 +46,7 @@ public class PersonService {
         validateLastName(freshPerson.getLastName());
         validateCity(freshPerson.getCity());
         validateInss(freshPerson.getInss());
+        validateNewPassword(freshPerson.getPassword());
         personRepo.getAllPersons().forEach(person -> validateThatPerson(freshPerson, person));
 
     }
@@ -69,6 +70,10 @@ public class PersonService {
 
     private void validateLastName(String lastName) {
         if (lastName == null) throw new IllegalArgumentException("last name can not be empty!");
+    }
+
+    private void validateNewPassword(String password) {
+        if (password == null) throw new IllegalArgumentException("password can not be empty!");
     }
 
     private void validateCity(String city) {
