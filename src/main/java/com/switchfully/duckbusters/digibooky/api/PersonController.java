@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("person")
+@RequestMapping("persons")
 @CrossOrigin
 public class PersonController {
 

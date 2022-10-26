@@ -38,8 +38,6 @@ class PersonControllerTest {
     @Test
     void createPerson() {
 
-        System.out.println(requestBody);
-
         given()
                 .baseUri("http://localhost")
                 .port(port)
@@ -47,7 +45,7 @@ class PersonControllerTest {
                 .and()
                 .body(requestBody)
                 .when()
-                .post("/person")
+                .post("/persons")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.CREATED.value())
@@ -66,7 +64,7 @@ class PersonControllerTest {
                 .header("Accept", ContentType.JSON.getAcceptHeader())
                 .body(requestBody)
                 .when()
-                .post("/person/registerLibrarian")
+                .post("/persons/registerLibrarian")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.CREATED.value())
@@ -77,7 +75,6 @@ class PersonControllerTest {
                 .toList()
                 .get(0)
                 .getRole();
-        System.out.println(role);
         Assertions.assertEquals(Role.LIBRARIAN,role);
     }
 
@@ -99,7 +96,7 @@ class PersonControllerTest {
                 .and()
                 .body(requestBody)
                 .when()
-                .post("/person/registerLibrarian")
+                .post("/persons/registerLibrarian")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.FORBIDDEN.value())
@@ -119,7 +116,7 @@ class PersonControllerTest {
                 .header("Content-type", "application/json")
                 .and()
                 .when()
-                .get("/person/listofpersons")
+                .get("/persons/listofpersons")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.OK.value())
@@ -138,7 +135,7 @@ class PersonControllerTest {
                 .header("Content-type", "application/json")
                 .and()
                 .when()
-                .get("/person/listofpersons")
+                .get("/persons/listofpersons")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.FORBIDDEN.value())

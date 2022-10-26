@@ -58,15 +58,15 @@ public class BookController {
         bookService.registerNewBook(authorization,freshBook);
     }
 
-    @PutMapping(path = "delete")
+    @PutMapping(path = "{isbn}/delete")
     @ResponseStatus (HttpStatus.OK)
-    public void softDeleteBook(@RequestHeader String authorization, @RequestParam String isbn){
+    public void softDeleteBook(@RequestHeader String authorization, @PathVariable String isbn){
         bookService.softDeleteBook(authorization,isbn);
     }
 
-    @PutMapping(path = "update",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "{isbn}/update",consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus (HttpStatus.OK)
-    public void updateBook(@RequestHeader String authorization, @RequestParam String isbn, @RequestBody UpdateBookDTO update){
+    public void updateBook(@RequestHeader String authorization, @PathVariable String isbn, @RequestBody UpdateBookDTO update){
         bookService.updateBook(authorization,isbn,update);
     }
 

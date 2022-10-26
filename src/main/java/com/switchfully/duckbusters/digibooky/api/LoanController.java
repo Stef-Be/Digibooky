@@ -25,7 +25,7 @@ public class LoanController {
         loanService.loanBook(authorization, isbn);
     }
 
-    @PutMapping(path = "/return/{loanId}", produces = "application/json")
+    @PutMapping(path = "{loanId}/return", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public returnBookDTO returnLoan(@RequestHeader String authorization, @PathVariable String loanId){
         return loanService.returnBook(authorization, loanId);

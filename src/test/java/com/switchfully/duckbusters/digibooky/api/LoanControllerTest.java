@@ -81,7 +81,7 @@ class LoanControllerTest {
                 .basic("amember@digibooky.com", "password")
                 .header("Accept", ContentType.JSON.getAcceptHeader())
                 .when()
-                .put("/loans/return/" + bookLoan.getId())
+                .put("/loans/" + bookLoan.getId()+"/return")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.OK.value())
