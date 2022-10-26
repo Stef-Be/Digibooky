@@ -99,10 +99,15 @@ public class BookRepository {
     }
 
     private static String getRegex(String searchParameter) {
+        if (searchParameter == null){
+            return ".*";
+        }
         String regexFirst = searchParameter.toLowerCase().replace("*", ".*");
+
         if (regexFirst.isBlank()) {
             regexFirst = ".*";
         }
+
         return regexFirst;
     }
 }

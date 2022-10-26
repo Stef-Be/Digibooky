@@ -58,7 +58,7 @@ public class PersonService {
 
     private void validateEmail(String eMail) {
 
-        if (eMail == null || !eMail.matches("^[A-z0-9]@[A-z0-9]\\.[A-z0-9]$"))
+        if (eMail == null || !eMail.matches("^[A-z0-9]*@[A-z0-9]*\\.[A-z0-9]*$"))
             throw new IllegalArgumentException("E mail does not conform to format!");
 
     }

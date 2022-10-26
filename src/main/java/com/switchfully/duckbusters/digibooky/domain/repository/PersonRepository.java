@@ -22,7 +22,6 @@ public class PersonRepository {
     private void addPersonsFromRepository() {
         Person admin = new Person("9999999999999","admin","admin","admin@digibooky.com",new Address("adminstreet","18","1842","brussels"), "password");
         admin.setRole(Role.ADMIN);
-        System.out.println(admin.getId());
         Person librarian = new Person("8888888888888","librarian","librarian","alibrarian@digibooky.com",new Address("librarianstreet","8","1842","brussels"), "password");
         librarian.setRole(Role.LIBRARIAN);
         Person member = new Person("7777777777777", "member", "member", "amember@digibooky.com", new Address("memberstreet", "7", "1742","brussels"), "password");

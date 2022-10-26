@@ -20,7 +20,6 @@ public class BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
-
     private final ValidationService validation;
 
     public BookService(BookRepository bookRepository, BookMapper bookMapper, ValidationService validation) {
