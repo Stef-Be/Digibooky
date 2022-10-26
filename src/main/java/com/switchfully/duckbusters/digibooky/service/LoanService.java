@@ -25,57 +25,27 @@ public class LoanService {
 
     private final PersonRepository personRepo;
 
-    private final BookRepository bookRepo;
+    private final SecurityService securityService;
+    private final ValidationService validationService;
 
-    private final ValidationService validation;
-
-    public LoanService(LoanRepository loanRepo, LoanMapper loanMapper, PersonRepository personRepo, BookRepository bookRepository, ValidationService validation) {
+    public LoanService(LoanRepository loanRepo, LoanMapper loanMapper, PersonRepository personRepo, SecurityService securityService, ValidationService validationService) {
         this.loanRepo = loanRepo;
         this.loanMapper = loanMapper;
         this.personRepo = personRepo;
-        this.bookRepo = bookRepository;
-        this.validation = validation;
+        this.securityService = securityService;
+        this.validationService = validationService;
     }
 
     public void loanBook(String auths, String isbn) {
-        validation.validateAuthorization(auths, LOAN_BOOK);
-        validateLoan(isbn);
-        loanRepo.addLoan(new BookLoan(personRepo.getPersonbyEmail(validation.getEmail(auths)).getId(), isbn));
+        securityService.validateAuthorization(auths, LOAN_BOOK);
+        validationService.validateLoan(isbn);
+        loanRepo.addLoan(new BookLoan(personRepo.getPersonbyEmail(securityService.getEmail(auths)).getId(), isbn));
 
-    }
-
-    public void validateLoan(String isbn) {
-        validateLoanBook(isbn);
-        loanRepo.getAllLoans().stream()
-                .filter(loan -> loan.getStatus().equals(LOANED_OUT))
-                .forEach(loan -> checkIfLoanedOut(isbn, loan));
-    }
-
-    public void checkIfLoanedOut(String isbn, BookLoan existing) {
-        if (isbn.equals(existing.getIsbn()))
-            throw new IllegalArgumentException("this book is currently loaned out!");
-    }
-
-    public void validateLoanMember(String loanMember) {
-        if (loanMember == null) throw new IllegalArgumentException("no member provided!");
-        if (!personRepo.doesPersonExist(loanMember)) throw new IllegalArgumentException("no such member exists!");
-    }
-
-    public void validateLoanBook(String loanISBN) {
-        if (loanISBN == null) throw new IllegalArgumentException("no book provided!");
-        if (!bookRepo.doesBookExist(loanISBN)) throw new IllegalArgumentException("no such book exists!");
-        if (!bookRepo.getExactBookByIsbn(loanISBN).isInCatalogue())throw new IllegalArgumentException("This book is no longer available!") ;
-    }
-
-    public void validateReturnBook(String loanId) {
-        if (!loanRepo.doesLoanExist(loanId)) throw new IllegalArgumentException("No such loan exists!");
-        if (loanRepo.getLoan(loanId).getStatus().equals(RETURNED))
-            throw new IllegalArgumentException("This book has already been returned!");
     }
 
     public returnBookDTO returnBook(String auths, String loanId) {
-        validation.validateAuthorization(auths, LOAN_BOOK);
-        validateReturnBook(loanId);
+        securityService.validateAuthorization(auths, LOAN_BOOK);
+        validationService.validateReturnBook(loanId);
         BookLoan loan = loanRepo.getLoan(loanId);
         loan.setStatus(RETURNED);
         return new returnBookDTO(loanId, loan.getDueDate(), checkDueDate(loan));
@@ -88,15 +58,15 @@ public class LoanService {
     }
 
     public List<LoanDto> getLoansFromMember(String auths, String memberId){
-        validation.validateAuthorization(auths, VIEW_LOANS);
-        validateLoanMember(memberId);
+        securityService.validateAuthorization(auths, VIEW_LOANS);
+        validationService.validateLoanMember(memberId);
         return loanRepo.getAllLoans().stream()
                 .filter(bookLoan -> bookLoan.getMember().equals(memberId))
                 .map(loanMapper::mapLoanToDTO).toList();
     }
 
     public List<LoanDto> getOverdueLoans(String librarianId){
-        validation.validateAuthorization(librarianId, VIEW_LOANS);
+        securityService.validateAuthorization(librarianId, VIEW_LOANS);
         return loanRepo.getAllLoans().stream()
                 .filter(bookLoan -> bookLoan.getStatus().equals(LOANED_OUT))
                 .filter(bookLoan -> bookLoan.getDueDate().isBefore(LocalDate.now()))

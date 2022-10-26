@@ -1,6 +1,5 @@
 package com.switchfully.duckbusters.digibooky.api;
 
-import com.switchfully.duckbusters.digibooky.service.ValidationService;
 import com.switchfully.duckbusters.digibooky.service.exceptions.UnauthorizatedException;
 import com.switchfully.duckbusters.digibooky.service.exceptions.UnknownPersonException;
 import com.switchfully.duckbusters.digibooky.service.exceptions.WrongPasswordException;

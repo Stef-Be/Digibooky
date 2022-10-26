@@ -20,12 +20,14 @@ public class BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
-    private final ValidationService validation;
+    private final SecurityService securityService;
+    private final ValidationService validationService;
 
-    public BookService(BookRepository bookRepository, BookMapper bookMapper, ValidationService validation) {
+    public BookService(BookRepository bookRepository, BookMapper bookMapper, SecurityService securityService, ValidationService validationService) {
         this.bookRepository = bookRepository;
         this.bookMapper = bookMapper;
-        this.validation = validation;
+        this.securityService = securityService;
+        this.validationService = validationService;
     }
 
     public List<AllBookDTO> getAllBooks() {
@@ -37,58 +39,46 @@ public class BookService {
 
     public List<SingleBookDto> getByIsbn(String isbn) {
         List<Book> foundBooks = bookRepository.getByIsbn(isbn);
-        return foundBooks.stream().filter(Book::isInCatalogue).map(bookMapper::mapToSingleBookDto).collect(Collectors.toList());
+        return foundBooks.stream()
+                .filter(Book::isInCatalogue)
+                .map(bookMapper::mapToSingleBookDto)
+                .collect(Collectors.toList());
     }
 
-    public void registerNewBook(String auths, RegisterBookDTO freshBook) {
-        validation.validateAuthorization(auths, CRUD_BOOK);
-        validateIsbn(freshBook.getIsbn());
-        validateTitle(freshBook.getTitle());
-        validateLastName(freshBook.getAuthorLastName());
+    public void registerNewBook(String authorization, RegisterBookDTO freshBook) {
+        securityService.validateAuthorization(authorization, CRUD_BOOK);
+        validationService.validateIsbn(freshBook.getIsbn());
+        validationService.assertNotNull(freshBook.getTitle(),"Title");
+        validationService.assertNotNull(freshBook.getAuthorLastName(), "Last name");
         bookRepository.addNewBook(bookMapper.createBookFromDto(freshBook));
     }
 
-    private void validateIsbn(String isbn) {
-        if (isbn == null) throw new IllegalArgumentException("isbn is empty!");
-        if (isbn.length() != 13) throw new IllegalArgumentException("isbn must be 13 characters long!");
-        if (bookRepository.doesBookExist(isbn)) checkReRegisterBook(isbn);
-    }
-
-    private void checkReRegisterBook(String isbn) {
-        if (bookRepository.getExactBookByIsbn(isbn).isInCatalogue())
-            throw new IllegalArgumentException("isbn must be unique!");
-
-        bookRepository.getExactBookByIsbn(isbn).setInCatalogue(true);
-    }
-
-    private void validateTitle(String title) {
-        if (title == null) throw new IllegalArgumentException("title is empty!");
-    }
-
-    private void validateLastName(String name) {
-        if (name == null) throw new IllegalArgumentException("author last name is empty!");
-    }
-
     public void softDeleteBook(String auths, String isbn) {
-        validation.validateAuthorization(auths, CRUD_BOOK);
+        securityService.validateAuthorization(auths, CRUD_BOOK);
         bookRepository.getExactBookByIsbn(isbn).setInCatalogue(false);
     }
 
 
     public void updateBook(String auths, String isbn, UpdateBookDTO update){
-        validation.validateAuthorization(auths, CRUD_BOOK);
+        securityService.validateAuthorization(auths, CRUD_BOOK);
         bookMapper.updateBookFromDTO(update,bookRepository.getExactBookByIsbn(isbn));
     }
 
 
     public List<SingleBookDto> getByTitle(String title) {
         List<Book> foundBooks = bookRepository.getByTitle(title);
-        return foundBooks.stream().filter(Book::isInCatalogue).map(bookMapper::mapToSingleBookDto).collect(Collectors.toList());
+        return foundBooks.stream()
+                .filter(Book::isInCatalogue)
+                .map(bookMapper::mapToSingleBookDto)
+                .collect(Collectors.toList());
     }
 
     public List<SingleBookDto> getByAuthor(String firstName, String lastName) {
         List<Book> foundBooks = bookRepository.getByAuthor(firstName, lastName);
-        return foundBooks.stream().filter(Book::isInCatalogue).map(bookMapper::mapToSingleBookDto).collect(Collectors.toList());
+        return foundBooks.stream()
+                .filter(Book::isInCatalogue)
+                .map(bookMapper::mapToSingleBookDto)
+                .collect(Collectors.toList());
     }
 
     public SingleBookDto getExactBookByIsbn(String isbn) {
