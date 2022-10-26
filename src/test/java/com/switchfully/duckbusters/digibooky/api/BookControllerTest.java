@@ -118,16 +118,20 @@ class BookControllerTest {
     @Test
     void getBookByIsbnEnhancedWithLenderInformationWhenNoSuchLenderExists(){
 
-        SingleBookDto[] response = given()
+        SingleBookDto response = given()
                 .port(port)
+                .auth()
+                .preemptive()
+                .basic("amember@digibooky.com", "password")
+                .header("Accept", ContentType.JSON.getAcceptHeader())
                 .when()
-                .get("/books?isbn=1234567890123")
+                .get("/books/1234567890123")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.OK.value())
                 .extract()
-                .as(SingleBookDto[].class);
-        assertThat(response[0].getLender()).isEqualTo("this book is not loaned out.");
+                .as(SingleBookDto.class);
+        assertThat(response.getLender()).isEqualTo("this book is not loaned out.");
     }
 
     @Test
@@ -141,16 +145,20 @@ class BookControllerTest {
 
         loanRepository.addLoan(new BookLoan(adminId, "1234567890123"));
 
-        SingleBookDto[] response = given()
+        SingleBookDto response = given()
                 .port(port)
+                .auth()
+                .preemptive()
+                .basic("amember@digibooky.com", "password")
+                .header("Accept", ContentType.JSON.getAcceptHeader())
                 .when()
-                .get("/books?isbn=1234567890123")
+                .get("/books/1234567890123")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.OK.value())
                 .extract()
-                .as(SingleBookDto[].class);
-        assertThat(response[0].getLender()).isEqualTo("admin admin");
+                .as(SingleBookDto.class);
+        assertThat(response.getLender()).isEqualTo("admin admin");
     }
 
     @Test
