@@ -61,6 +61,10 @@ class BookControllerTest {
     void getBookByIsbn() {
         SingleBookDto response = given()
                 .port(port)
+                .auth()
+                .preemptive()
+                .basic("", "")
+                .header("Accept", ContentType.JSON.getAcceptHeader())
                 .when()
                 .get("/books/1234567890123")
                 .then()

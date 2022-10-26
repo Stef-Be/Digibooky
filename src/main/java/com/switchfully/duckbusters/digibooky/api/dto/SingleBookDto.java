@@ -1,9 +1,9 @@
 package com.switchfully.duckbusters.digibooky.api.dto;
 
-import com.switchfully.duckbusters.digibooky.domain.book.Author;
 
-import java.util.Optional;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SingleBookDto {
     private String isbn;
     private String title;

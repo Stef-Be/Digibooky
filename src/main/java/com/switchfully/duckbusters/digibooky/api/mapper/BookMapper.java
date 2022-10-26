@@ -1,9 +1,6 @@
 package com.switchfully.duckbusters.digibooky.api.mapper;
 
-import com.switchfully.duckbusters.digibooky.api.dto.AllBookDTO;
-import com.switchfully.duckbusters.digibooky.api.dto.RegisterBookDTO;
-import com.switchfully.duckbusters.digibooky.api.dto.SingleBookDto;
-import com.switchfully.duckbusters.digibooky.api.dto.UpdateBookDTO;
+import com.switchfully.duckbusters.digibooky.api.dto.*;
 import com.switchfully.duckbusters.digibooky.domain.book.Author;
 import com.switchfully.duckbusters.digibooky.domain.book.Book;
 import com.switchfully.duckbusters.digibooky.domain.repository.LoanRepository;
@@ -14,7 +11,6 @@ import org.springframework.stereotype.Component;
 public class BookMapper {
 
     private LoanRepository loanRepository;
-    private PersonRepository personRepository;
 
     public BookMapper(LoanRepository loanRepository) {
         this.loanRepository = loanRepository;
@@ -31,8 +27,16 @@ public class BookMapper {
 
         String lender = loanRepository.getLender(book);
 
+
         return new SingleBookDto().setLender(lender)
                 .setIsbn(book.getIsbn())
+                .setTitle(book.getTitle())
+                .setAuthor(book.getAuthor().getFullName())
+                .setSummary(book.getSummary());
+    }
+
+    public SingleBookDto mapToSingleBookDtoWithOutLender(Book book) {
+        return new SingleBookDto().setIsbn(book.getIsbn())
                 .setTitle(book.getTitle())
                 .setAuthor(book.getAuthor().getFullName())
                 .setSummary(book.getSummary());
@@ -55,6 +59,9 @@ public class BookMapper {
 
         if (update.getSummary() != null && !update.getSummary().isBlank()) book.setSummary(update.getSummary());
     }
+
+
+
 }
 
 

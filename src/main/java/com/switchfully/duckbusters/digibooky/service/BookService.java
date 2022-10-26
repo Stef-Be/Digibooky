@@ -10,9 +10,11 @@ import com.switchfully.duckbusters.digibooky.domain.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.switchfully.duckbusters.digibooky.domain.person.Feature.CRUD_BOOK;
+import static com.switchfully.duckbusters.digibooky.domain.person.Feature.SEE_BORROWERS;
 
 @Service
 public class BookService {
@@ -82,7 +84,15 @@ public class BookService {
                 .collect(Collectors.toList());
     }
 
-    public SingleBookDto getExactBookByIsbn(String isbn) {
+    public SingleBookDto getExactBookByIsbn(String authorization, String isbn) {
+        if(authorization.equals("Basic Og==")){
+            if (!bookRepository.getExactBookByIsbn(isbn).isInCatalogue()) {
+                throw new IllegalArgumentException("This book is no longer available.");
+            }
+            return bookMapper.mapToSingleBookDtoWithOutLender(bookRepository.getExactBookByIsbn(isbn));
+        }
+
+        securityService.validateAuthorization(authorization, SEE_BORROWERS);
         if (!bookRepository.getExactBookByIsbn(isbn).isInCatalogue()) {
             throw new IllegalArgumentException("This book is no longer available.");
         }

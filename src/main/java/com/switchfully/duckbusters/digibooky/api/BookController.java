@@ -9,6 +9,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @RequestMapping("books")
 @RestController
@@ -31,8 +34,8 @@ public class BookController {
 
     @GetMapping(path = "{isbn}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public SingleBookDto getExactBookByIsbn(@PathVariable String isbn) {
-        return bookService.getExactBookByIsbn(isbn);
+    public SingleBookDto getExactBookByIsbn(@RequestHeader String authorization, @PathVariable String isbn) {
+        return bookService.getExactBookByIsbn(authorization, isbn);
     }
 
     @GetMapping(params = "isbn", produces = MediaType.APPLICATION_JSON_VALUE)
