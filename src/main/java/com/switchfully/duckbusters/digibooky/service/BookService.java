@@ -43,7 +43,7 @@ public class BookService {
         List<Book> foundBooks = bookRepository.getByIsbn(isbn);
         return foundBooks.stream()
                 .filter(Book::isInCatalogue)
-                .map(bookMapper::mapToSingleBookDto)
+                .map(bookMapper::mapToSingleBookDtoWithOutLender)
                 .collect(Collectors.toList());
     }
 
@@ -72,7 +72,7 @@ public class BookService {
         List<Book> foundBooks = bookRepository.getByTitle(title);
         return foundBooks.stream()
                 .filter(Book::isInCatalogue)
-                .map(bookMapper::mapToSingleBookDto)
+                .map(bookMapper::mapToSingleBookDtoWithOutLender)
                 .collect(Collectors.toList());
     }
 
@@ -80,7 +80,7 @@ public class BookService {
         List<Book> foundBooks = bookRepository.getByAuthor(firstName, lastName);
         return foundBooks.stream()
                 .filter(Book::isInCatalogue)
-                .map(bookMapper::mapToSingleBookDto)
+                .map(bookMapper::mapToSingleBookDtoWithOutLender)
                 .collect(Collectors.toList());
     }
 
