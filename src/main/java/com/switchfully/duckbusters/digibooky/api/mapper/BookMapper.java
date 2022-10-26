@@ -38,20 +38,22 @@ public class BookMapper {
                 .setSummary(book.getSummary());
     }
 
-    public Book createBookFromDto(RegisterBookDTO freshBook){
+    public Book createBookFromDto(RegisterBookDTO freshBook) {
         Author author = new Author(freshBook.getAuthorFirstName(), freshBook.getAuthorLastName());
         return new Book(freshBook.getIsbn(), freshBook.getTitle(), author, freshBook.getSummary());
     }
 
-    public void updateBookFromDTO(UpdateBookDTO update, Book book){
+    public void updateBookFromDTO(UpdateBookDTO update, Book book) {
 
-        if(update.getTitle()!= null)book.setTitle(update.getTitle());
+        if (update.getTitle() != null && !update.getTitle().isBlank()) book.setTitle(update.getTitle());
 
-        if(update.getAuthorFirstName()!= null)book.getAuthor().setAuthorFirstname(update.getAuthorFirstName());
+        if (update.getAuthorFirstName() != null && !update.getAuthorFirstName().isBlank())
+            book.getAuthor().setAuthorFirstname(update.getAuthorFirstName());
 
-        if(update.getAuthorLastName()!= null)book.getAuthor().setAuthorLastname(update.getAuthorLastName());
+        if (update.getAuthorLastName() != null && !update.getAuthorLastName().isBlank())
+            book.getAuthor().setAuthorLastname(update.getAuthorLastName());
 
-        if(update.getSummary()!= null)book.setSummary(update.getSummary());
+        if (update.getSummary() != null && !update.getSummary().isBlank()) book.setSummary(update.getSummary());
     }
 }
 

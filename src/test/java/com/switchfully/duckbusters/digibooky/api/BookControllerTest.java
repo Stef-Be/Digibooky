@@ -123,7 +123,7 @@ class BookControllerTest {
                 .statusCode(HttpStatus.OK.value())
                 .extract()
                 .as(SingleBookDto[].class);
-        assertThat(response[0].getLender()).isEqualTo("no such lender");
+        assertThat(response[0].getLender()).isEqualTo("this book is not loaned out.");
     }
 
     @Test
@@ -364,18 +364,10 @@ class BookControllerTest {
     }
 
     @Test
-    void reRegisterDeletedBook(){
-
+    void restoreBook(){
 
         bookRepository.getExactBookByIsbn("1234567890123").setInCatalogue(false);
 
-        String requestBody = "{\n" +
-                "  \"isbn\": \"1234567890123\",\n" +
-                "  \"title\": \"a book\",\n" +
-                "  \"authorFirstName\": \"a\",\n" +
-                "  \"authorLastName\": \"e\",\n" +
-                "  \"summary\": \"this is a summary\"}"
-                ;
 
         given()
                 .baseUri("http://localhost")
@@ -386,12 +378,11 @@ class BookControllerTest {
                 .header("Accept", ContentType.JSON.getAcceptHeader())
                 .header("Content-type", "application/json")
                 .and()
-                .body(requestBody)
                 .when()
-                .post("/books/register")
+                .put("/books/1234567890123/restore")
                 .then()
                 .assertThat()
-                .statusCode(HttpStatus.CREATED.value())
+                .statusCode(HttpStatus.OK.value())
                 .extract();
 
     }

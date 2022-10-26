@@ -27,13 +27,7 @@ public class ValidationService {
     public void validateIsbn(String isbn) {
         if (isbn == null) throw new IllegalArgumentException("isbn is empty!");
         if (isbn.length() != 13) throw new IllegalArgumentException("isbn must be 13 characters long!");
-        if (bookRepository.doesBookExist(isbn)) checkReRegisterBook(isbn);
-    }
-
-    private void checkReRegisterBook(String isbn) {
-        if (bookRepository.getExactBookByIsbn(isbn).isInCatalogue())
-            throw new IllegalArgumentException("isbn must be unique!");
-        bookRepository.getExactBookByIsbn(isbn).setInCatalogue(true);
+        if (bookRepository.doesBookExist(isbn)) throw new IllegalArgumentException("isbn must be unique!");
     }
 
     public void validateLoan(String isbn) {

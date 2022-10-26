@@ -69,6 +69,11 @@ public class BookController {
     public void updateBook(@RequestHeader String authorization, @PathVariable String isbn, @RequestBody UpdateBookDTO update){
         bookService.updateBook(authorization,isbn,update);
     }
+    @PutMapping(path = "{isbn}/restore")
+    @ResponseStatus (HttpStatus.OK)
+    public void restoreBook(@RequestHeader String authorization, @PathVariable String isbn){
+        bookService.restoreBook(authorization,isbn);
+    }
 
 
 }

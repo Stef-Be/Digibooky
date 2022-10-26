@@ -43,7 +43,7 @@ public class LoanRepository {
                 .filter(loan -> loan.getStatus().equals(LoanStatus.LOANED_OUT))
                 .filter(loan -> loan.getIsbn().equals(book.getIsbn()))
                 .map(loan ->personRepository.getPersonById(loan.getMember()).getFullName())
-                .findFirst().orElse("no such lender");
+                .findFirst().orElse("this book is not loaned out.");
         return lender;
     }
 }

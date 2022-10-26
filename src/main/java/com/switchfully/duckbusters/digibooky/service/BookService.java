@@ -48,10 +48,11 @@ public class BookService {
     public void registerNewBook(String authorization, RegisterBookDTO freshBook) {
         securityService.validateAuthorization(authorization, CRUD_BOOK);
         validationService.validateIsbn(freshBook.getIsbn());
-        validationService.assertNotNullOrBlank(freshBook.getTitle(),"Title");
+        validationService.assertNotNullOrBlank(freshBook.getTitle(), "Title");
         validationService.assertNotNullOrBlank(freshBook.getAuthorLastName(), "Last name");
         bookRepository.addNewBook(bookMapper.createBookFromDto(freshBook));
     }
+
 
     public void softDeleteBook(String auths, String isbn) {
         securityService.validateAuthorization(auths, CRUD_BOOK);
@@ -59,9 +60,9 @@ public class BookService {
     }
 
 
-    public void updateBook(String auths, String isbn, UpdateBookDTO update){
+    public void updateBook(String auths, String isbn, UpdateBookDTO update) {
         securityService.validateAuthorization(auths, CRUD_BOOK);
-        bookMapper.updateBookFromDTO(update,bookRepository.getExactBookByIsbn(isbn));
+        bookMapper.updateBookFromDTO(update, bookRepository.getExactBookByIsbn(isbn));
     }
 
 
@@ -82,6 +83,14 @@ public class BookService {
     }
 
     public SingleBookDto getExactBookByIsbn(String isbn) {
+        if (!bookRepository.getExactBookByIsbn(isbn).isInCatalogue()) {
+            throw new IllegalArgumentException("This book is no longer available.");
+        }
         return bookMapper.mapToSingleBookDto(bookRepository.getExactBookByIsbn(isbn));
+    }
+
+    public void restoreBook(String authorization, String isbn) {
+        securityService.validateAuthorization(authorization, CRUD_BOOK);
+        bookRepository.getExactBookByIsbn(isbn).setInCatalogue(true);
     }
 }
