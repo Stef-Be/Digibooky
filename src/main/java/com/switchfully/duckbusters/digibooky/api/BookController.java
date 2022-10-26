@@ -34,7 +34,7 @@ public class BookController {
 
     @GetMapping(path = "{isbn}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public SingleBookDto getExactBookByIsbn(@RequestHeader String authorization, @PathVariable String isbn) {
+    public SingleBookDto getExactBookByIsbn(@RequestHeader (required = false) String authorization, @PathVariable String isbn) {
         return bookService.getExactBookByIsbn(authorization, isbn);
     }
 

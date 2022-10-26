@@ -85,7 +85,7 @@ public class BookService {
     }
 
     public SingleBookDto getExactBookByIsbn(String authorization, String isbn) {
-        if(authorization.equals("Basic Og==")){
+        if(authorization==null||authorization.equals("Basic Og==") ){
             if (!bookRepository.getExactBookByIsbn(isbn).isInCatalogue()) {
                 throw new IllegalArgumentException("This book is no longer available.");
             }
