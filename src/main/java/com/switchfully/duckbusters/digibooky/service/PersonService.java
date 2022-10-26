@@ -39,23 +39,13 @@ public class PersonService {
 
 
     public void addPersonToRepo(CreatePersonDTO freshPerson) {
-        validateFreshPerson(freshPerson);
+        validationService.validateFreshPerson(freshPerson);
         personRepository.addPerson(personMapper.createNewPerson(freshPerson));
-    }
-
-    public void validateFreshPerson(CreatePersonDTO freshPerson) {
-        validationService.validateEmail(freshPerson.geteMail());
-        validationService.assertNotNullOrBlank(freshPerson.getLastName(), "Last name");
-        validationService.assertNotNullOrBlank(freshPerson.getCity(), "City");
-        validationService.assertNotNullOrBlank(freshPerson.getInss(), "Inss");
-        validationService.assertNotNullOrBlank(freshPerson.getPassword(), "Password");
-        personRepository.getAllPersons().forEach(person -> validationService.validateThatPerson(freshPerson, person));
-
     }
 
     public void registerLibrarian(String adminId, CreatePersonDTO newPerson) {
         securityService.validateAuthorization(adminId, Feature.ADD_LIBRARIAN);
-        validateFreshPerson(newPerson);
+        validationService.validateFreshPerson(newPerson);
         Person librarian = personMapper.createNewPerson(newPerson);
         librarian.setRole(Role.LIBRARIAN);
         personRepository.addPerson(librarian);

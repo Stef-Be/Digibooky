@@ -74,4 +74,13 @@ public class ValidationService {
         if (eMail == null || !eMail.matches("^[A-z0-9]+@[A-z0-9]+\\.[A-z0-9]+$"))
             throw new IllegalArgumentException("E mail does not conform to format!");
     }
+
+    public void validateFreshPerson(CreatePersonDTO freshPerson) {
+        validateEmail(freshPerson.geteMail());
+        assertNotNullOrBlank(freshPerson.getLastName(), "Last name");
+        assertNotNullOrBlank(freshPerson.getCity(), "City");
+        assertNotNullOrBlank(freshPerson.getInss(), "Inss");
+        assertNotNullOrBlank(freshPerson.getPassword(), "Password");
+        personRepository.getAllPersons().forEach(person -> validateThatPerson(freshPerson, person));
+    }
 }
