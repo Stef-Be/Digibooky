@@ -2,6 +2,7 @@ package com.switchfully.duckbusters.digibooky.service;
 
 
 import com.switchfully.duckbusters.digibooky.api.dto.LoanDto;
+import com.switchfully.duckbusters.digibooky.api.dto.LoanReceipt;
 import com.switchfully.duckbusters.digibooky.api.mapper.LoanMapper;
 import com.switchfully.duckbusters.digibooky.api.dto.returnBookDTO;
 import com.switchfully.duckbusters.digibooky.domain.loan.BookLoan;
@@ -36,11 +37,13 @@ public class LoanService {
         this.validationService = validationService;
     }
 
-    public void loanBook(String auths, String isbn) {
+    public LoanReceipt loanBook(String auths, String isbn) {
         securityService.validateAuthorization(auths, LOAN_BOOK);
         validationService.validateLoan(isbn);
-        loanRepo.addLoan(new BookLoan(personRepo.getPersonbyEmail(securityService.getEmail(auths)).getId(), isbn));
+        BookLoan loan = new BookLoan(personRepo.getPersonbyEmail(securityService.getEmail(auths)).getId(), isbn);
+        loanRepo.addLoan(loan);
 
+        return new LoanReceipt(loan.getId(), loan.getIsbn(), loan.getDueDate());
     }
 
     public returnBookDTO returnBook(String auths, String loanId) {
