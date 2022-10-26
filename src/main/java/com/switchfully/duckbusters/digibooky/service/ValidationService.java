@@ -13,10 +13,10 @@ import static com.switchfully.duckbusters.digibooky.domain.loan.LoanStatus.RETUR
 
 @Service
 public class ValidationService {
-private final BookRepository bookRepository;
-private final PersonRepository personRepository;
+    private final BookRepository bookRepository;
+    private final PersonRepository personRepository;
 
-private final LoanRepository loanRepository;
+    private final LoanRepository loanRepository;
 
     public ValidationService(BookRepository bookRepository, PersonRepository personRepository, LoanRepository loanRepository) {
         this.bookRepository = bookRepository;
@@ -46,7 +46,8 @@ private final LoanRepository loanRepository;
     public void validateLoanBook(String loanISBN) {
         if (loanISBN == null) throw new IllegalArgumentException("no book provided!");
         if (!bookRepository.doesBookExist(loanISBN)) throw new IllegalArgumentException("no such book exists!");
-        if (!bookRepository.getExactBookByIsbn(loanISBN).isInCatalogue())throw new IllegalArgumentException("This book is no longer available!") ;
+        if (!bookRepository.getExactBookByIsbn(loanISBN).isInCatalogue())
+            throw new IllegalArgumentException("This book is no longer available!");
     }
 
     public void checkIfLoanedOut(String isbn, BookLoan existing) {
@@ -65,8 +66,8 @@ private final LoanRepository loanRepository;
         if (!personRepository.doesPersonExist(loanMember)) throw new IllegalArgumentException("no such member exists!");
     }
 
-    void assertNotNull(String value, String field) {
-        if (value == null) throw new IllegalArgumentException(field + " can not be empty!");
+    void assertNotNullOrBlank(String value, String field) {
+        if (value == null || value.isBlank()) throw new IllegalArgumentException(field + " can not be empty!");
     }
 
     void validateThatPerson(CreatePersonDTO freshPerson, Person existing) {
@@ -76,7 +77,7 @@ private final LoanRepository loanRepository;
     }
 
     void validateEmail(String eMail) {
-        if (eMail == null || !eMail.matches("^[A-z0-9]*@[A-z0-9]*\\.[A-z0-9]*$"))
+        if (eMail == null || !eMail.matches("^[A-z0-9]+@[A-z0-9]+\\.[A-z0-9]+$"))
             throw new IllegalArgumentException("E mail does not conform to format!");
     }
 }

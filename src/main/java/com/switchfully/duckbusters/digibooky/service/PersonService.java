@@ -45,10 +45,10 @@ public class PersonService {
 
     public void validateFreshPerson(CreatePersonDTO freshPerson) {
         validationService.validateEmail(freshPerson.geteMail());
-        validationService.assertNotNull(freshPerson.getLastName(), "Last name");
-        validationService.assertNotNull(freshPerson.getCity(), "City");
-        validationService.assertNotNull(freshPerson.getInss(), "Inss");
-        validationService.assertNotNull(freshPerson.getPassword(), "Password");
+        validationService.assertNotNullOrBlank(freshPerson.getLastName(), "Last name");
+        validationService.assertNotNullOrBlank(freshPerson.getCity(), "City");
+        validationService.assertNotNullOrBlank(freshPerson.getInss(), "Inss");
+        validationService.assertNotNullOrBlank(freshPerson.getPassword(), "Password");
         personRepository.getAllPersons().forEach(person -> validationService.validateThatPerson(freshPerson, person));
 
     }

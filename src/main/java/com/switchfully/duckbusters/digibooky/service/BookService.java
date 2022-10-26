@@ -48,8 +48,8 @@ public class BookService {
     public void registerNewBook(String authorization, RegisterBookDTO freshBook) {
         securityService.validateAuthorization(authorization, CRUD_BOOK);
         validationService.validateIsbn(freshBook.getIsbn());
-        validationService.assertNotNull(freshBook.getTitle(),"Title");
-        validationService.assertNotNull(freshBook.getAuthorLastName(), "Last name");
+        validationService.assertNotNullOrBlank(freshBook.getTitle(),"Title");
+        validationService.assertNotNullOrBlank(freshBook.getAuthorLastName(), "Last name");
         bookRepository.addNewBook(bookMapper.createBookFromDto(freshBook));
     }
 
