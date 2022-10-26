@@ -1,6 +1,7 @@
 package com.switchfully.duckbusters.digibooky.api;
 
 import com.switchfully.duckbusters.digibooky.api.dto.LoanDto;
+import com.switchfully.duckbusters.digibooky.api.dto.LoanReceipt;
 import com.switchfully.duckbusters.digibooky.api.dto.returnBookDTO;
 import com.switchfully.duckbusters.digibooky.service.LoanService;
 import org.springframework.http.HttpStatus;
@@ -19,10 +20,10 @@ public class LoanController {
         this.loanService = loanService;
     }
 
-    @PostMapping(path = "/new")
+    @PostMapping(path = "/new" ,produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public void newLoan(@RequestHeader String authorization, @RequestParam String isbn){
-        loanService.loanBook(authorization, isbn);
+    public LoanReceipt newLoan(@RequestHeader String authorization, @RequestParam String isbn){
+        return loanService.loanBook(authorization, isbn);
     }
 
     @PutMapping(path = "{loanId}/return", produces = "application/json")
