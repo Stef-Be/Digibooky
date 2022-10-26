@@ -3,7 +3,7 @@ package com.switchfully.duckbusters.digibooky.api;
 import com.switchfully.duckbusters.digibooky.api.dto.CreatePersonDTO;
 import com.switchfully.duckbusters.digibooky.api.dto.PersonDTO;
 import com.switchfully.duckbusters.digibooky.service.PersonService;
-import org.springframework.boot.autoconfigure.quartz.QuartzTransactionManager;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

@@ -37,18 +37,18 @@ public class BookController {
 
     @GetMapping(params = "isbn", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<SingleBookDto> getBookByIsbn(@RequestParam String isbn) {
+    public List<SingleBookDto> getBookByIsbn(@RequestParam(required = false) String isbn) {
         return bookService.getByIsbn(isbn);
     }
     @GetMapping(params = "title", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<SingleBookDto> getBookByTitle(@RequestParam String title) {
+    public List<SingleBookDto> getBookByTitle(@RequestParam(required = false) String title) {
         return bookService.getByTitle(title);
     }
 
     @GetMapping(path="author", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<SingleBookDto> getBookByAuthor(@RequestParam String firstName, @RequestParam String lastName) {
+    public List<SingleBookDto> getBookByAuthor(@RequestParam(required = false) String firstName, @RequestParam (required = false) String lastName) {
         return bookService.getByAuthor(firstName, lastName);
     }
 
